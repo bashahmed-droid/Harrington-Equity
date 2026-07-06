@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Harrington Equity Group — Submission Portal</title>
+  <title>Harrington Equity Group — Partner Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -16,17 +16,36 @@
       --error: #b03a2e; --error-bg: #2a1515;
     }
     html, body { font-family: 'Mulish', sans-serif; background: var(--bg); color: var(--white); min-height: 100vh; padding-bottom: 4rem; }
-    .header { background: #151c2e; border-bottom: 1px solid var(--border); text-align: center; padding: 2rem 1.5rem; }
-    .logo-wrap { display: flex; justify-content: center; margin-bottom: 1.25rem; }
-    .logo-wrap img { width: 220px; height: 220px; object-fit: cover; display: block; border-radius: 0; background: #000; }
-    .portal-label { font-size: 10.5px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-top: 0.4rem; }
-    .rule { display: flex; align-items: center; gap: 12px; justify-content: center; margin: 1rem auto; max-width: 480px; }
+
+    /* Header */
+    .header { background: #151c2e; border-bottom: 1px solid var(--border); text-align: center; padding: 1.75rem 1.5rem; }
+    .logo-wrap { display: flex; justify-content: center; margin-bottom: 1rem; }
+    .logo-wrap img { width: 180px; height: 180px; object-fit: cover; display: block; border-radius: 0; background: #000; }
+    .portal-label { font-size: 10px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-top: 0.4rem; }
+    .rule { display: flex; align-items: center; gap: 12px; justify-content: center; margin: 0.75rem auto; max-width: 480px; }
     .rule::before, .rule::after { content: ''; flex: 1; height: 1px; background: var(--border); }
     .rule span { color: var(--gold); font-size: 10px; }
-    .disclaimer { font-size: 13.5px; font-weight: 300; line-height: 1.8; color: var(--muted); max-width: 560px; margin: 0 auto; }
-    .form-outer { max-width: 760px; margin: 2rem auto 0; padding: 0 1.25rem; }
+    .disclaimer { font-size: 13px; font-weight: 300; line-height: 1.8; color: var(--muted); max-width: 560px; margin: 0 auto; }
+
+    /* Progress bar */
+    .progress-wrap { max-width: 760px; margin: 1.5rem auto 0; padding: 0 1.25rem; }
+    .progress-bar { display: flex; align-items: center; justify-content: space-between; position: relative; margin-bottom: 2rem; }
+    .progress-bar::before { content: ''; position: absolute; top: 18px; left: 0; right: 0; height: 2px; background: var(--border); z-index: 0; }
+    .progress-fill { position: absolute; top: 18px; left: 0; height: 2px; background: var(--gold); z-index: 1; transition: width 0.4s ease; }
+    .step-dot { display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 2; cursor: pointer; }
+    .step-dot .dot { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--border); background: var(--surface-2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--muted); transition: all 0.3s; }
+    .step-dot.active .dot { border-color: var(--gold); background: var(--gold); color: #0d1020; }
+    .step-dot.completed .dot { border-color: var(--gold); background: var(--gold); color: #0d1020; }
+    .step-dot .step-label { font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: center; max-width: 70px; line-height: 1.3; }
+    .step-dot.active .step-label { color: var(--gold); }
+    .step-dot.completed .step-label { color: var(--gold-pale); }
+
+    /* Form */
+    .form-outer { max-width: 760px; margin: 0 auto; padding: 0 1.25rem; }
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
     .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.75rem 2rem; margin-bottom: 1.25rem; }
-    .section-hdr { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--white); margin-bottom: 1.25rem; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+    .section-hdr { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--white); margin-bottom: 1.25rem; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
     .section-hdr::before { content: ''; display: inline-block; width: 3px; height: 17px; background: var(--gold); border-radius: 2px; flex-shrink: 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
     .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
@@ -36,64 +55,74 @@
     label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
     .req { color: var(--gold); margin-left: 2px; }
     input:not([type=checkbox]):not([type=radio]), select, textarea { font-family: 'Mulish', sans-serif; font-size: 14px; font-weight: 400; padding: 10px 13px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface-2); color: var(--white) !important; width: 100%; transition: border-color 0.18s; -webkit-appearance: none; }
-    input[type="checkbox"] { width: 22px !important; height: 22px !important; min-width: 22px; accent-color: #b8922a; cursor: pointer; padding: 0 !important; border: none !important; background: transparent !important; -webkit-appearance: auto !important; appearance: auto !important; }
-    input[type="radio"] { width: 20px !important; height: 20px !important; min-width: 20px; accent-color: #b8922a; cursor: pointer; padding: 0 !important; border: none !important; background: transparent !important; -webkit-appearance: auto !important; appearance: auto !important; }
     input:not([type=checkbox]):not([type=radio])::placeholder, textarea::placeholder { color: #3a4a68; }
     input:not([type=checkbox]):not([type=radio]):focus, select:focus, textarea:focus { outline: none; border-color: var(--gold); }
+    input:not([type=checkbox]):not([type=radio]).invalid, select.invalid { border-color: var(--error); background: var(--error-bg); }
+    input[type="radio"] { width: 18px !important; height: 18px !important; min-width: 18px; accent-color: #b8922a; cursor: pointer; padding: 0 !important; border: none !important; background: transparent !important; -webkit-appearance: auto !important; appearance: auto !important; }
     select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%238a9ab8' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; cursor: pointer; }
     select option { background: #151c2e; color: var(--white); }
     textarea { resize: vertical; min-height: 80px; line-height: 1.65; }
     .error-msg { font-size: 11.5px; color: var(--error); display: none; font-weight: 600; }
-    input:not([type=checkbox]):not([type=radio]).invalid, select.invalid { border-color: var(--error); background: var(--error-bg); }
-
+    .info-note { font-size: 12px; color: var(--muted); padding: 10px 14px; background: #151c2e; border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0; margin-bottom: 16px; line-height: 1.6; }
 
     /* Account type toggle */
-    .acct-toggle { display: flex; gap: 12px; margin-bottom: 0; }
-    .acct-btn { flex: 1; padding: 14px; border: 2px solid var(--border); border-radius: 6px; background: var(--surface-2); color: var(--muted); font-family: 'Mulish', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-align: center; }
+    .acct-toggle { display: flex; gap: 12px; }
+    .acct-btn { flex: 1; padding: 16px; border: 2px solid var(--border); border-radius: 6px; background: var(--surface-2); color: var(--muted); font-family: 'Mulish', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-align: center; }
     .acct-btn:hover { border-color: var(--gold-pale); color: var(--gold-pale); background: #1a2235; }
     .acct-btn.active { background: var(--gold); color: #0d1020; border-color: var(--gold); }
-    .acct-required { border-color: var(--error) !important; }
-    .acct-btn:hover { border-color: var(--gold-pale); color: var(--gold-pale); }
-    .acct-btn.active { background: var(--gold); color: #0d1020; border-color: var(--gold); }
-    .acct-icon { font-size: 22px; display: block; margin-bottom: 6px; }
+    .acct-btn.acct-required { border-color: var(--error) !important; }
+    .acct-icon { font-size: 24px; display: block; margin-bottom: 8px; }
 
-    /* Dynamic sections */
-    .personal-section { display: none; }
-    .corporate-section { display: none; }
-    .personal-section.show { display: block; }
-    .corporate-section.show { display: block; }
+    /* Director rows */
+    .director-row { background: #151c2e; border: 1px solid var(--border); border-radius: 6px; padding: 1rem; margin-bottom: 1rem; position: relative; }
+    .director-row-title { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .btn-add { font-family: 'Mulish', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 10px 20px; background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 4px; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem; }
+    .btn-add:hover { background: var(--gold); color: #0d1020; }
+    .btn-remove { position: absolute; top: 10px; right: 10px; background: none; border: none; color: var(--error); cursor: pointer; font-size: 16px; padding: 4px 8px; }
 
-    /* Subscriber questions */
-    .sub-question { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); }
-    .sub-question:last-child { border-bottom: none; padding-bottom: 0; }
-    .sub-q-text { flex: 1; font-size: 13px; line-height: 1.6; color: var(--white); }
-    .sub-q-detail { margin-top: 8px; }
-    .yes-no { display: flex; gap: 8px; flex-shrink: 0; }
-    .yn-btn { padding: 6px 14px; border: 1px solid var(--border); border-radius: 3px; background: var(--surface-2); color: var(--muted); font-family: 'Mulish', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; cursor: pointer; transition: all 0.15s; }
-    .yn-btn.yes-active { background: #1a3520; color: #6aca8a; border-color: #4a8a5a; }
-    .yn-btn.no-active { background: #2a1515; color: #e07060; border-color: #8a3030; }
+    /* Radio auth */
+    .auth-option { display: flex; align-items: flex-start; gap: 12px; padding: 14px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; transition: border-color 0.2s; margin-bottom: 10px; }
+    .auth-option:last-child { margin-bottom: 0; }
+    .auth-option.selected { border-color: var(--gold); background: #1a2235; }
+    .auth-option-text strong { font-size: 13px; font-weight: 700; color: var(--gold); display: block; margin-bottom: 4px; }
+    .auth-option-text span { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
 
-    .submit-section { text-align: center; padding: 0 1.25rem; }
-    .required-note { font-size: 13px; color: var(--muted); margin-bottom: 1.25rem; }
-    .required-note span { color: var(--gold); font-weight: 700; }
-    .btn-submit { font-family: 'Mulish', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; padding: 15px 52px; background: var(--gold); color: #0d1020; border: none; border-radius: 4px; cursor: pointer; transition: background 0.2s; }
-    .btn-submit:hover { background: var(--gold-light); }
-    .btn-submit:disabled { background: #4a3a18; color: #8a7040; cursor: not-allowed; }
+    /* Custom checkbox */
+    .custom-check-wrap { display: grid; grid-template-columns: 24px 1fr; gap: 12px; padding: 14px; background: #151c2e; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; align-items: start; }
+    .custom-check-box { width: 22px; height: 22px; min-width: 22px; border: 2px solid var(--gold); border-radius: 3px; background: transparent; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; transition: background 0.2s; }
+    .custom-check-box .tick { display: none; color: var(--gold); font-size: 14px; font-weight: bold; }
+    .custom-check-box.checked { background: #b8922a22; }
+    .custom-check-box.checked .tick { display: block; }
+    .custom-check-text { font-size: 12.5px; font-weight: 400; color: var(--muted); line-height: 1.7; }
+
+    /* Navigation buttons */
+    .nav-btns { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding: 0 0 1rem; }
+    .btn-back { font-family: 'Mulish', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 13px 32px; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+    .btn-back:hover { border-color: var(--muted); color: var(--white); }
+    .btn-next { font-family: 'Mulish', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 13px 40px; background: var(--gold); color: #0d1020; border: none; border-radius: 4px; cursor: pointer; transition: background 0.2s; }
+    .btn-next:hover { background: var(--gold-light); }
+    .btn-submit-final { font-family: 'Mulish', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 13px 40px; background: var(--gold); color: #0d1020; border: none; border-radius: 4px; cursor: pointer; transition: background 0.2s; }
+    .btn-submit-final:hover { background: var(--gold-light); }
+    .btn-submit-final:disabled { background: #4a3a18; color: #8a7040; cursor: not-allowed; }
     .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(13,16,32,0.3); border-top-color: #0d1020; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .success-banner { display: none; align-items: center; justify-content: center; gap: 10px; padding: 14px 20px; background: #1a2e1a; border: 1px solid #4a8a3a; border-radius: 4px; font-size: 14px; font-weight: 600; color: #8aca6a; margin-top: 1.25rem; }
+    .success-banner { display: none; align-items: center; justify-content: center; gap: 10px; padding: 16px 24px; background: #1a2e1a; border: 1px solid #4a8a3a; border-radius: 4px; font-size: 14px; font-weight: 600; color: #8aca6a; margin-top: 1rem; text-align: center; }
     .error-banner-submit { display: none; align-items: center; justify-content: center; gap: 10px; padding: 14px 20px; background: var(--error-bg); border: 1px solid var(--error); border-radius: 4px; font-size: 13px; font-weight: 500; color: #e07060; margin-top: 1rem; }
-    footer { max-width: 760px; margin: 2rem auto 0; padding: 0 1.25rem 3rem; }
-    .disclaimer-box { border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem 1.75rem; background: #151c2e; }
-    .disclaimer-check-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 1rem; }
-    .disclaimer-check-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); cursor: pointer; }
+
+    /* Disclaimer */
+    .disclaimer-box { border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem 1.75rem; background: #151c2e; margin-bottom: 1.25rem; }
     .disclaimer-text { font-size: 12.5px; font-weight: 300; line-height: 1.8; color: var(--muted); }
     .disclaimer-text p { margin-bottom: 0.8rem; }
-    .page-footer { text-align: center; padding: 1.5rem 1rem; border-top: 1px solid var(--border); margin-top: 1rem; }
+    .page-footer { text-align: center; padding: 1.5rem 1rem; border-top: 1px solid var(--border); margin-top: 1rem; max-width: 760px; margin-left: auto; margin-right: auto; }
     .page-footer p { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: #c8bfad; margin-bottom: 4px; }
     .page-footer small { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #3a4a68; }
-    .info-note { font-size: 12px; color: var(--muted); padding: 10px 14px; background: #151c2e; border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0; margin-bottom: 16px; line-height: 1.6; }
-    @media (max-width: 580px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } .form-card { padding: 1.25rem 1rem; } .acct-toggle { flex-direction: column; } }
+
+    @media (max-width: 580px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .form-card { padding: 1.25rem 1rem; }
+      .acct-toggle { flex-direction: column; }
+      .step-dot .step-label { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -108,12 +137,39 @@
   </div>
   <div class="portal-label">Confidential Referral Partner Submission Portal</div>
   <div class="rule"><span>◆</span></div>
-  <p class="disclaimer">Please use this form to register prospective shareholder opportunities for review by Harrington Equity Group. Submission of an opportunity does not constitute acceptance. Additional information may be requested following review.</p>
+  <p class="disclaimer">Please use this form to register prospective shareholder opportunities for review by Harrington Equity Group. Submission of an opportunity does not constitute acceptance.</p>
 </header>
+
+<div class="progress-wrap">
+  <div class="progress-bar" id="progress-bar">
+    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    <div class="step-dot active" data-step="1" onclick="goToStep(1)">
+      <div class="dot">1</div>
+      <div class="step-label">Partner & Type</div>
+    </div>
+    <div class="step-dot" data-step="2" onclick="goToStep(2)">
+      <div class="dot">2</div>
+      <div class="step-label">Personal / Corporate</div>
+    </div>
+    <div class="step-dot" data-step="3" onclick="goToStep(3)">
+      <div class="dot">3</div>
+      <div class="step-label">AML & Tax</div>
+    </div>
+    <div class="step-dot" data-step="4" onclick="goToStep(4)">
+      <div class="dot">4</div>
+      <div class="step-label">Security & Transfer</div>
+    </div>
+    <div class="step-dot" data-step="5" onclick="goToStep(5)">
+      <div class="dot">5</div>
+      <div class="step-label">Authorization</div>
+    </div>
+  </div>
+</div>
 
 <main class="form-outer">
 
-  <!-- 1. Partner Info -->
+<!-- ═══ STEP 1: Partner Info + Account Type ═══ -->
+<div class="step-panel active" id="step-1">
   <div class="form-card">
     <div class="section-hdr">Partner Information</div>
     <div class="grid-2">
@@ -129,7 +185,6 @@
     </div>
   </div>
 
-  <!-- 2. Account Type -->
   <div class="form-card">
     <div class="section-hdr">Account Type</div>
     <p class="info-note">Select the type of account the shareholder wishes to open. The form will show the relevant fields based on your selection.</p>
@@ -145,65 +200,17 @@
     <div class="error-msg" id="err-account-type" style="margin-top:10px">Please select an account type</div>
   </div>
 
-  <!-- 3. Security Details (always shown) -->
-  <div class="form-card">
-    <div class="section-hdr">Security Details</div>
-    <div class="grid-3">
-      <div class="field">
-        <label for="symbol">Ticker Symbol <span class="req">*</span></label>
-        <input type="text" id="symbol" placeholder="e.g. ENGS" style="text-transform:uppercase" />
-        <div class="error-msg" id="err-symbol">Required</div>
-      </div>
-      <div class="field">
-        <label for="isin">Security ISIN <span class="req">*</span></label>
-        <input type="text" id="isin" placeholder="e.g. US0378331005" style="text-transform:uppercase" />
-        <div class="error-msg" id="err-isin">Required</div>
-      </div>
-      <div class="field">
-        <label for="exchange">Exchange <span class="req">*</span></label>
-        <select id="exchange">
-          <option value="" disabled selected>Select</option>
-          <option>NASDAQ</option><option>NYSE</option><option>OTCID</option>
-          <option>OTCQB</option><option>OTCQX</option><option>TSX</option>
-          <option>TSXV</option><option>Other</option>
-        </select>
-        <div class="error-msg" id="err-exchange">Required</div>
-      </div>
-    </div>
-    <div class="grid-3">
-
-
-
-    </div>
-    <div class="grid-2">
-      <div class="field">
-        <label for="purpose">Purpose of Deposit <span class="req">*</span></label>
-        <select id="purpose">
-          <option value="" disabled selected>Select</option>
-          <option>Long Term Hold</option><option>Legend Removal</option>
-          <option>Resale</option><option>Loan Collateral</option>
-          <option>Safekeeping</option><option>Other</option>
-        </select>
-        <div class="error-msg" id="err-purpose">Required</div>
-      </div>
-      <div class="field">
-        <label for="priority">Priority <span class="req">*</span></label>
-        <select id="priority">
-          <option value="" disabled selected>Select</option>
-          <option>High</option><option>Medium</option><option>Low</option>
-        </select>
-        <div class="error-msg" id="err-priority">Required</div>
-      </div>
-    </div>
-    <div class="grid-2">
-
-
-    </div>
+  <div class="nav-btns">
+    <div></div>
+    <button class="btn-next" onclick="nextStep(1)">Next →</button>
   </div>
+</div>
 
-  <!-- ═══ PERSONAL SECTIONS ═══ -->
-  <div class="personal-section" id="personal-sections">
+<!-- ═══ STEP 2: Personal or Corporate Details ═══ -->
+<div class="step-panel" id="step-2">
 
+  <!-- PERSONAL -->
+  <div id="personal-step2" style="display:none">
     <div class="form-card">
       <div class="section-hdr">Personal Details</div>
       <div class="grid-3">
@@ -260,13 +267,6 @@
           <div class="error-msg" id="err-p-email">Required</div>
         </div>
       </div>
-      <div class="grid-1">
-        <div class="field">
-          <label for="p-home-address">Home Address <span class="req">*</span></label>
-          <input type="text" id="p-home-address" placeholder="Full home address" />
-          <div class="error-msg" id="err-p-home-address">Required</div>
-        </div>
-      </div>
       <div class="grid-2">
         <div class="field">
           <label for="p-country">Country of Residence <span class="req">*</span></label>
@@ -277,17 +277,24 @@
           <div class="error-msg" id="err-p-country">Required</div>
         </div>
         <div class="field">
-          <label for="p-shares">Number of Shares <span class="req">*</span></label>
-          <input type="number" id="p-shares" placeholder="0" min="0" step="1" />
-          <div class="error-msg" id="err-p-shares">Required</div>
+          <label for="p-home-address">Home Address <span class="req">*</span></label>
+          <input type="text" id="p-home-address" placeholder="Street, City, Postal Code" />
+          <div class="error-msg" id="err-p-home-address">Required</div>
         </div>
       </div>
       <div class="grid-2">
         <div class="field">
+          <label for="p-shares">Number of Shares <span class="req">*</span></label>
+          <input type="text" id="p-shares" placeholder="e.g. 100,000" oninput="formatCommas(this)" />
+          <div class="error-msg" id="err-p-shares">Required</div>
+        </div>
+        <div class="field">
           <label for="p-position-value">Est. Position Value (USD) <span class="req">*</span></label>
-          <input type="number" id="p-position-value" placeholder="0.00" min="0" step="0.01" />
+          <input type="text" id="p-position-value" placeholder="e.g. 500,000" oninput="formatCommas(this)" />
           <div class="error-msg" id="err-p-position-value">Required</div>
         </div>
+      </div>
+      <div class="grid-2">
         <div class="field">
           <label for="p-currency">Preferred Account Currency <span class="req">*</span></label>
           <select id="p-currency">
@@ -296,9 +303,203 @@
           </select>
           <div class="error-msg" id="err-p-currency">Required</div>
         </div>
+        <div class="field">
+          <label for="p-us-status">U.S. Citizenship / Tax Status <span class="req">*</span></label>
+          <select id="p-us-status">
+            <option value="" disabled selected>Select</option>
+            <option>I am a U.S. citizen / resident (provide U.S. TIN)</option>
+            <option>Born in U.S. but voluntarily surrendered citizenship</option>
+            <option>I am not a U.S. citizen or resident for tax purposes</option>
+          </select>
+          <div class="error-msg" id="err-p-us-status">Required</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORPORATE -->
+  <div id="corporate-step2" style="display:none">
+    <div class="form-card">
+      <div class="section-hdr">Shareholder / Contact Details</div>
+      <div class="grid-3">
+        <div class="field">
+          <label for="c-first-name">First Name <span class="req">*</span></label>
+          <input type="text" id="c-first-name" placeholder="First name" oninput="this.value=this.value.replace(/\b\w/g,c=>c.toUpperCase())" />
+          <div class="error-msg" id="err-c-first-name">Required</div>
+        </div>
+        <div class="field">
+          <label for="c-last-name">Last Name <span class="req">*</span></label>
+          <input type="text" id="c-last-name" placeholder="Last name" oninput="this.value=this.value.replace(/\b\w/g,c=>c.toUpperCase())" />
+          <div class="error-msg" id="err-c-last-name">Required</div>
+        </div>
+        <div class="field">
+          <label for="c-role">Role <span class="req">*</span></label>
+          <select id="c-role">
+            <option value="" disabled selected>Select</option>
+            <option>Director</option><option>Shareholder</option><option>UBO</option><option>Authorized Signatory</option><option>Other</option>
+          </select>
+          <div class="error-msg" id="err-c-role">Required</div>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="field">
+          <label for="c-passport">Passport # <span class="req">*</span></label>
+          <input type="text" id="c-passport" placeholder="Passport number" style="text-transform:uppercase" />
+          <div class="error-msg" id="err-c-passport">Required</div>
+        </div>
+        <div class="field">
+          <label for="c-nationality">Nationality <span class="req">*</span></label>
+          <input type="text" id="c-nationality" placeholder="e.g. Canadian" />
+          <div class="error-msg" id="err-c-nationality">Required</div>
+        </div>
+        <div class="field">
+          <label for="c-country">Country of Residence <span class="req">*</span></label>
+          <select id="c-country">
+            <option value="" disabled selected>Select country</option>
+            <option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Argentina</option><option>Australia</option><option>Austria</option><option>Bahamas</option><option>Bahrain</option><option>Bangladesh</option><option>Belgium</option><option>Brazil</option><option>Canada</option><option>Chile</option><option>China</option><option>Colombia</option><option>Croatia</option><option>Cyprus</option><option>Czech Republic</option><option>Denmark</option><option>Egypt</option><option>Finland</option><option>France</option><option>Germany</option><option>Greece</option><option>Hungary</option><option>India</option><option>Indonesia</option><option>Ireland</option><option>Israel</option><option>Italy</option><option>Japan</option><option>Jordan</option><option>Kazakhstan</option><option>Kenya</option><option>Kuwait</option><option>Lebanon</option><option>Luxembourg</option><option>Malaysia</option><option>Malta</option><option>Mexico</option><option>Morocco</option><option>Netherlands</option><option>New Zealand</option><option>Nigeria</option><option>Norway</option><option>Oman</option><option>Pakistan</option><option>Philippines</option><option>Poland</option><option>Portugal</option><option>Qatar</option><option>Romania</option><option>Russia</option><option>Saudi Arabia</option><option>Singapore</option><option>South Africa</option><option>South Korea</option><option>Spain</option><option>Sweden</option><option>Switzerland</option><option>Taiwan</option><option>Thailand</option><option>Turkey</option><option>Ukraine</option><option>United Arab Emirates</option><option>United Kingdom</option><option>United States</option><option>Vietnam</option>
+          </select>
+          <div class="error-msg" id="err-c-country">Required</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="c-phone">Phone Number <span class="req">*</span></label>
+          <input type="tel" id="c-phone" placeholder="+1 (000) 000-0000" oninput="this.value=this.value.replace(/[^0-9+\-\s()]/g,'')" />
+          <div class="error-msg" id="err-c-phone">Must start with + and include country code</div>
+        </div>
+        <div class="field">
+          <label for="c-email">Email Address <span class="req">*</span></label>
+          <input type="email" id="c-email" placeholder="email@example.com" />
+          <div class="error-msg" id="err-c-email">Required</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="c-shares">Number of Shares <span class="req">*</span></label>
+          <input type="text" id="c-shares" placeholder="e.g. 100,000" oninput="formatCommas(this)" />
+          <div class="error-msg" id="err-c-shares">Required</div>
+        </div>
+        <div class="field">
+          <label for="c-position-value">Est. Position Value (USD) <span class="req">*</span></label>
+          <input type="text" id="c-position-value" placeholder="e.g. 500,000" oninput="formatCommas(this)" />
+          <div class="error-msg" id="err-c-position-value">Required</div>
+        </div>
       </div>
     </div>
 
+    <div class="form-card">
+      <div class="section-hdr">Corporate Details</div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="c-corp-name">Company Name <span class="req">*</span></label>
+          <input type="text" id="c-corp-name" placeholder="Legal company name" />
+          <div class="error-msg" id="err-c-corp-name">Required</div>
+        </div>
+        <div class="field">
+          <label for="c-country-incorp">Country of Incorporation <span class="req">*</span></label>
+          <select id="c-country-incorp">
+            <option value="" disabled selected>Select</option>
+            <option>Bahamas</option><option>British Virgin Islands</option><option>Canada</option><option>Cayman Islands</option><option>China</option><option>Cyprus</option><option>Germany</option><option>Hong Kong</option><option>India</option><option>Ireland</option><option>Luxembourg</option><option>Malta</option><option>Mauritius</option><option>Netherlands</option><option>New Zealand</option><option>Panama</option><option>Seychelles</option><option>Singapore</option><option>Switzerland</option><option>United Kingdom</option><option>United States</option><option>Other</option>
+          </select>
+          <div class="error-msg" id="err-c-country-incorp">Required</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="c-reg-agent">Registered Agent <span class="req">*</span></label>
+          <input type="text" id="c-reg-agent" placeholder="Agent name or N/A" />
+          <div class="error-msg" id="err-c-reg-agent">Required</div>
+        </div>
+        <div class="field">
+          <label for="c-reg-number">Registration Number <span class="req">*</span></label>
+          <input type="text" id="c-reg-number" placeholder="Company registration number" />
+          <div class="error-msg" id="err-c-reg-number">Required</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="c-currency">Preferred Currency <span class="req">*</span></label>
+          <select id="c-currency">
+            <option value="" disabled selected>Select</option>
+            <option>USD</option><option>CAD</option><option>CHF</option><option>EUR</option>
+          </select>
+          <div class="error-msg" id="err-c-currency">Required</div>
+        </div>
+        <div class="field">
+          <label for="c-mailing-address">Mailing Address <span class="req">*</span></label>
+          <input type="text" id="c-mailing-address" placeholder="Full mailing address" />
+          <div class="error-msg" id="err-c-mailing-address">Required</div>
+        </div>
+      </div>
+      <div class="grid-1">
+        <div class="field">
+          <label for="c-us-tax-status">U.S. Tax Status <span class="req">*</span></label>
+          <select id="c-us-tax-status">
+            <option value="" disabled selected>Select</option>
+            <option>U.S. Corporation / Resident (provide U.S. TIN)</option>
+            <option>Non-U.S. but conducts U.S. business (provide U.S. TIN)</option>
+            <option>Non-U.S. Corporation — no U.S. connection</option>
+          </select>
+          <div class="error-msg" id="err-c-us-tax-status">Required</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="section-hdr">Directors, UBOs &amp; Authorized Signatories</div>
+      <p class="info-note">Add details for each director, beneficial owner (UBO) or authorized signatory. At least one entry is required.</p>
+      <div id="directors-container">
+        <div class="director-row" id="dir-0">
+          <div class="director-row-title">Person 1</div>
+          <div class="grid-3">
+            <div class="field">
+              <label>Full Name <span class="req">*</span></label>
+              <input type="text" class="dir-name" placeholder="Full legal name" />
+            </div>
+            <div class="field">
+              <label>Role <span class="req">*</span></label>
+              <select class="dir-role">
+                <option value="" disabled selected>Select</option>
+                <option>Director</option><option>UBO</option><option>Authorized Signatory</option><option>Shareholder</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Nationality <span class="req">*</span></label>
+              <input type="text" class="dir-nationality" placeholder="e.g. Canadian" />
+            </div>
+          </div>
+          <div class="grid-3">
+            <div class="field">
+              <label>Passport # <span class="req">*</span></label>
+              <input type="text" class="dir-passport" placeholder="Passport number" style="text-transform:uppercase" />
+            </div>
+            <div class="field">
+              <label>Country of Residence <span class="req">*</span></label>
+              <input type="text" class="dir-country" placeholder="Country" />
+            </div>
+            <div class="field">
+              <label>% Ownership (UBO only)</label>
+              <input type="text" class="dir-ownership" placeholder="e.g. 25% or N/A" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-add" onclick="addDirector()">+ Add Another Person</button>
+      <div class="error-msg" id="err-directors" style="margin-top:8px">At least one person is required</div>
+    </div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-back" onclick="prevStep(2)">← Back</button>
+    <button class="btn-next" onclick="nextStep(2)">Next →</button>
+  </div>
+</div>
+
+<!-- ═══ STEP 3: AML & Tax ═══ -->
+<div class="step-panel" id="step-3">
+
+  <!-- PERSONAL AML -->
+  <div id="personal-step3" style="display:none">
     <div class="form-card">
       <div class="section-hdr">Employment &amp; AML</div>
       <div class="grid-2">
@@ -306,8 +507,7 @@
           <label for="p-employment">Employment Status <span class="req">*</span></label>
           <select id="p-employment">
             <option value="" disabled selected>Select</option>
-            <option>Salaried Employee</option><option>Self Employed</option>
-            <option>Retired</option><option>Other</option>
+            <option>Salaried Employee</option><option>Self Employed</option><option>Retired</option><option>Other</option>
           </select>
           <div class="error-msg" id="err-p-employment">Required</div>
         </div>
@@ -330,7 +530,7 @@
         </div>
         <div class="field">
           <label for="p-net-worth">Estimated Net Worth (USD) <span class="req">*</span></label>
-          <input type="text" id="p-net-worth" placeholder="e.g. 500,000" />
+          <input type="text" id="p-net-worth" placeholder="e.g. 500,000" oninput="formatCommas(this)" />
           <div class="error-msg" id="err-p-net-worth">Required</div>
         </div>
       </div>
@@ -347,19 +547,18 @@
         </div>
         <div class="field">
           <label for="p-source-detail">Source of Funds Detail <span class="req">*</span></label>
-          <input type="text" id="p-source-detail" placeholder="Provide details or N/A" />
+          <input type="text" id="p-source-detail" placeholder="Provide details" />
           <div class="error-msg" id="err-p-source-detail">Required</div>
         </div>
       </div>
       <div class="grid-2">
         <div class="field">
-          <label for="p-purpose-acct">Purpose of Account <span class="req">*</span></label>
-          <select id="p-purpose-acct">
+          <label for="p-investment-obj">Investment Objectives <span class="req">*</span></label>
+          <select id="p-investment-obj">
             <option value="" disabled selected>Select</option>
-            <option>Wealth Management</option><option>Investment</option>
-            <option>Estate Distribution</option><option>Other</option>
+            <option>Growth</option><option>Mixed</option><option>Income</option>
           </select>
-          <div class="error-msg" id="err-p-purpose-acct">Required</div>
+          <div class="error-msg" id="err-p-investment-obj">Required</div>
         </div>
         <div class="field">
           <label for="p-investment-exp">Investment Experience <span class="req">*</span></label>
@@ -380,12 +579,13 @@
           <div class="error-msg" id="err-p-risk-tolerance">Required</div>
         </div>
         <div class="field">
-          <label for="p-investment-obj">Investment Objectives <span class="req">*</span></label>
-          <select id="p-investment-obj">
+          <label for="p-purpose-acct">Purpose of Account <span class="req">*</span></label>
+          <select id="p-purpose-acct">
             <option value="" disabled selected>Select</option>
-            <option>Growth</option><option>Mixed</option><option>Income</option>
+            <option>Wealth Management</option><option>Investment</option>
+            <option>Estate Distribution</option><option>Other</option>
           </select>
-          <div class="error-msg" id="err-p-investment-obj">Required</div>
+          <div class="error-msg" id="err-p-purpose-acct">Required</div>
         </div>
       </div>
       <div class="grid-1">
@@ -396,9 +596,8 @@
         </div>
       </div>
     </div>
-
     <div class="form-card">
-      <div class="section-hdr">Tax Residency &amp; CRS (Individual)</div>
+      <div class="section-hdr">Tax Residency (CRS)</div>
       <div class="grid-2">
         <div class="field">
           <label for="p-tax-country">Country of Tax Residency <span class="req">*</span></label>
@@ -414,147 +613,11 @@
           <div class="error-msg" id="err-p-tin">Required</div>
         </div>
       </div>
-      <div class="grid-1">
-        <div class="field">
-          <label for="p-us-status">U.S. Citizenship / Tax Status <span class="req">*</span></label>
-          <select id="p-us-status">
-            <option value="" disabled selected>Select</option>
-            <option>I am a U.S. citizen / resident (provide U.S. TIN)</option>
-            <option>Born in U.S. but voluntarily surrendered citizenship</option>
-            <option>I am not a U.S. citizen or resident for tax purposes</option>
-          </select>
-          <div class="error-msg" id="err-p-us-status">Required</div>
-        </div>
-      </div>
     </div>
-
   </div>
-  <!-- END PERSONAL SECTIONS -->
 
-  <!-- ═══ CORPORATE SECTIONS ═══ -->
-  <div class="corporate-section" id="corporate-sections">
-
-    <div class="form-card">
-      <div class="section-hdr">Shareholder / Contact Details</div>
-      <div class="grid-2">
-        <div class="field">
-          <label for="c-sh-name">Shareholder Name <span class="req">*</span></label>
-          <input type="text" id="c-sh-name" placeholder="Full legal name" oninput="this.value=this.value.replace(/\b\w/g,c=>c.toUpperCase())" />
-          <div class="error-msg" id="err-c-sh-name">Required</div>
-        </div>
-        <div class="field">
-          <label for="c-country">Country <span class="req">*</span></label>
-          <select id="c-country">
-            <option value="" disabled selected>Select country</option>
-            <option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Argentina</option><option>Australia</option><option>Austria</option><option>Bahamas</option><option>Bahrain</option><option>Bangladesh</option><option>Belgium</option><option>Brazil</option><option>Canada</option><option>Chile</option><option>China</option><option>Colombia</option><option>Croatia</option><option>Cyprus</option><option>Czech Republic</option><option>Denmark</option><option>Egypt</option><option>Finland</option><option>France</option><option>Germany</option><option>Greece</option><option>Hungary</option><option>India</option><option>Indonesia</option><option>Ireland</option><option>Israel</option><option>Italy</option><option>Japan</option><option>Jordan</option><option>Kazakhstan</option><option>Kenya</option><option>Kuwait</option><option>Lebanon</option><option>Luxembourg</option><option>Malaysia</option><option>Malta</option><option>Mexico</option><option>Morocco</option><option>Netherlands</option><option>New Zealand</option><option>Nigeria</option><option>Norway</option><option>Oman</option><option>Pakistan</option><option>Philippines</option><option>Poland</option><option>Portugal</option><option>Qatar</option><option>Romania</option><option>Russia</option><option>Saudi Arabia</option><option>Singapore</option><option>South Africa</option><option>South Korea</option><option>Spain</option><option>Sweden</option><option>Switzerland</option><option>Taiwan</option><option>Thailand</option><option>Turkey</option><option>Ukraine</option><option>United Arab Emirates</option><option>United Kingdom</option><option>United States</option><option>Vietnam</option>
-          </select>
-          <div class="error-msg" id="err-c-country">Required</div>
-        </div>
-      </div>
-      <div class="grid-3">
-        <div class="field">
-          <label for="c-nationality">Nationality <span class="req">*</span></label>
-          <input type="text" id="c-nationality" placeholder="e.g. Canadian" />
-          <div class="error-msg" id="err-c-nationality">Required</div>
-        </div>
-        <div class="field">
-          <label for="c-passport">Passport # <span class="req">*</span></label>
-          <input type="text" id="c-passport" placeholder="Passport number" style="text-transform:uppercase" />
-          <div class="error-msg" id="err-c-passport">Required</div>
-        </div>
-        <div class="field">
-          <label for="c-place-birth">Place of Birth <span class="req">*</span></label>
-          <input type="text" id="c-place-birth" placeholder="City, Country" />
-          <div class="error-msg" id="err-c-place-birth">Required</div>
-        </div>
-      </div>
-      <div class="grid-2">
-        <div class="field">
-          <label for="c-phone">Phone Number <span class="req">*</span></label>
-          <input type="tel" id="c-phone" placeholder="+1 (000) 000-0000" oninput="this.value=this.value.replace(/[^0-9+\-\s()]/g,'')" />
-          <div class="error-msg" id="err-c-phone">Must start with + and include country code</div>
-        </div>
-        <div class="field">
-          <label for="c-email">Email Address <span class="req">*</span></label>
-          <input type="email" id="c-email" placeholder="email@example.com" />
-          <div class="error-msg" id="err-c-email">Required</div>
-        </div>
-      </div>
-      <div class="grid-2">
-        <div class="field">
-          <label for="c-shares">Number of Shares <span class="req">*</span></label>
-          <input type="number" id="c-shares" placeholder="0" min="0" step="1" />
-          <div class="error-msg" id="err-c-shares">Required</div>
-        </div>
-        <div class="field">
-          <label for="c-position-value">Est. Position Value (USD) <span class="req">*</span></label>
-          <input type="number" id="c-position-value" placeholder="0.00" min="0" step="0.01" />
-          <div class="error-msg" id="err-c-position-value">Required</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-card">
-      <div class="section-hdr">Corporate Details</div>
-      <div class="grid-2">
-        <div class="field">
-          <label for="c-corp-name">Company Name <span class="req">*</span></label>
-          <input type="text" id="c-corp-name" placeholder="Legal company name" />
-          <div class="error-msg" id="err-c-corp-name">Required</div>
-        </div>
-        <div class="field">
-          <label for="c-country-incorp">Country of Incorporation <span class="req">*</span></label>
-          <select id="c-country-incorp">
-            <option value="" disabled selected>Select country</option>
-            <option>Bahamas</option><option>British Virgin Islands</option><option>Canada</option><option>Cayman Islands</option><option>China</option><option>Cyprus</option><option>Germany</option><option>Hong Kong</option><option>India</option><option>Ireland</option><option>Luxembourg</option><option>Malta</option><option>Mauritius</option><option>Netherlands</option><option>New Zealand</option><option>Panama</option><option>Seychelles</option><option>Singapore</option><option>Switzerland</option><option>United Kingdom</option><option>United States</option><option>Other</option>
-          </select>
-          <div class="error-msg" id="err-c-country-incorp">Required</div>
-        </div>
-      </div>
-      <div class="grid-2">
-        <div class="field">
-          <label for="c-reg-agent">Registered Agent <span class="req">*</span></label>
-          <input type="text" id="c-reg-agent" placeholder="Agent name or N/A" />
-          <div class="error-msg" id="err-c-reg-agent">Required</div>
-        </div>
-        <div class="field">
-          <label for="c-reg-number">Registration Number <span class="req">*</span></label>
-          <input type="text" id="c-reg-number" placeholder="Company registration number" />
-          <div class="error-msg" id="err-c-reg-number">Required</div>
-        </div>
-      </div>
-      <div class="grid-3">
-        <div class="field">
-          <label for="c-currency">Preferred Currency <span class="req">*</span></label>
-          <select id="c-currency">
-            <option value="" disabled selected>Select</option>
-            <option>USD</option><option>CAD</option><option>CHF</option><option>EUR</option>
-          </select>
-          <div class="error-msg" id="err-c-currency">Required</div>
-        </div>
-        <div class="field">
-          <label for="c-stmt-freq">Statement Frequency <span class="req">*</span></label>
-          <select id="c-stmt-freq">
-            <option value="" disabled selected>Select</option>
-            <option>When Issued</option><option>Monthly</option><option>Quarterly</option>
-          </select>
-          <div class="error-msg" id="err-c-stmt-freq">Required</div>
-        </div>
-        <div class="field">
-          <label for="c-acct-type-detail">Account Activity <span class="req">*</span></label>
-          <input type="text" id="c-acct-type-detail" placeholder="e.g. Securities trading" />
-          <div class="error-msg" id="err-c-acct-type-detail">Required</div>
-        </div>
-      </div>
-      <div class="grid-1">
-        <div class="field">
-          <label for="c-mailing-address">Mailing Address <span class="req">*</span></label>
-          <input type="text" id="c-mailing-address" placeholder="Full mailing address" />
-          <div class="error-msg" id="err-c-mailing-address">Required</div>
-        </div>
-      </div>
-    </div>
-
+  <!-- CORPORATE AML -->
+  <div id="corporate-step3" style="display:none">
     <div class="form-card">
       <div class="section-hdr">Corporate AML &amp; Source of Funds</div>
       <div class="grid-2">
@@ -570,14 +633,14 @@
         </div>
         <div class="field">
           <label for="c-source-detail">Source of Funds Detail <span class="req">*</span></label>
-          <input type="text" id="c-source-detail" placeholder="Provide details or N/A" />
+          <input type="text" id="c-source-detail" placeholder="Provide details" />
           <div class="error-msg" id="err-c-source-detail">Required</div>
         </div>
       </div>
       <div class="grid-2">
         <div class="field">
           <label for="c-net-worth">Estimated Net Worth (USD) <span class="req">*</span></label>
-          <input type="text" id="c-net-worth" placeholder="e.g. 500,000" />
+          <input type="text" id="c-net-worth" placeholder="e.g. 500,000" oninput="formatCommas(this)" />
           <div class="error-msg" id="err-c-net-worth">Required</div>
         </div>
         <div class="field">
@@ -591,15 +654,30 @@
           <div class="error-msg" id="err-c-annual-income">Required</div>
         </div>
       </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="c-purpose-acct">Purpose of Account <span class="req">*</span></label>
+          <select id="c-purpose-acct">
+            <option value="" disabled selected>Select</option>
+            <option>Wealth Management</option><option>Investment</option>
+            <option>Securities Trading</option><option>Other</option>
+          </select>
+          <div class="error-msg" id="err-c-purpose-acct">Required</div>
+        </div>
+        <div class="field">
+          <label for="c-acct-activity">Account Activity <span class="req">*</span></label>
+          <input type="text" id="c-acct-activity" placeholder="e.g. Securities trading" />
+          <div class="error-msg" id="err-c-acct-activity">Required</div>
+        </div>
+      </div>
       <div class="grid-1">
         <div class="field">
           <label for="c-background">Background Information <span class="req">*</span></label>
-          <textarea id="c-background" placeholder="Details of company background, business activities, ownership structure…"></textarea>
+          <textarea id="c-background" placeholder="Company background, business activities, ownership structure…"></textarea>
           <div class="error-msg" id="err-c-background">Required</div>
         </div>
       </div>
     </div>
-
     <div class="form-card">
       <div class="section-hdr">Corporate Tax Residency (CRS)</div>
       <div class="grid-2">
@@ -617,85 +695,63 @@
           <div class="error-msg" id="err-c-tin">Required</div>
         </div>
       </div>
-      <div class="grid-1">
-        <div class="field">
-          <label for="c-us-tax-status">U.S. Tax Status <span class="req">*</span></label>
-          <select id="c-us-tax-status">
-            <option value="" disabled selected>Select</option>
-            <option>U.S. Corporation / Resident (provide U.S. TIN)</option>
-            <option>Non-U.S. but conducts U.S. business (provide U.S. TIN)</option>
-            <option>Non-U.S. Corporation — no U.S. connection</option>
-          </select>
-          <div class="error-msg" id="err-c-us-tax-status">Required</div>
-        </div>
-      </div>
     </div>
-
   </div>
-  <!-- END CORPORATE SECTIONS -->
 
-  <!-- Trading Authorization -->
+  <div class="nav-btns">
+    <button class="btn-back" onclick="prevStep(3)">← Back</button>
+    <button class="btn-next" onclick="nextStep(3)">Next →</button>
+  </div>
+</div>
+
+<!-- ═══ STEP 4: Security + Transfer + Subscriber + Notes ═══ -->
+<div class="step-panel" id="step-4">
   <div class="form-card">
-    <div class="section-hdr">Trading Authorization</div>
-    <p class="info-note">Please select the level of trading authorization you wish to grant to Harrington Equity Group as your authorized agent. This authorization covers your account with Magellan Securities Limited.</p>
-
-
-
-    <div class="field" style="margin-bottom:16px">
-      <label>Authorization Level <span class="req">*</span></label>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-top:6px">
-
-        <label style="display:flex;align-items:flex-start;gap:12px;padding:14px;border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:border-color 0.2s;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;color:var(--white)" id="auth-label-view">
-          <input type="radio" name="auth-level" id="auth-view" value="View Only Access" style="width:18px!important;height:18px!important;accent-color:#b8922a;flex-shrink:0;margin-top:2px" onchange="highlightAuth()" />
-          <span>
-            <strong style="font-size:13px;font-weight:700;color:var(--gold);display:block;margin-bottom:4px">View Only Access</strong>
-            Authorized to receive statements and account information only. Not authorized to place trades, make purchases, sales or withdrawals on your account.
-          </span>
-        </label>
-
-        <label style="display:flex;align-items:flex-start;gap:12px;padding:14px;border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:border-color 0.2s;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;color:var(--white)" id="auth-label-limited">
-          <input type="radio" name="auth-level" id="auth-limited" value="Limited Trading Authorization" style="width:18px!important;height:18px!important;accent-color:#b8922a;flex-shrink:0;margin-top:2px" onchange="highlightAuth()" />
-          <span>
-            <strong style="font-size:13px;font-weight:700;color:var(--gold);display:block;margin-bottom:4px">Limited Trading Authorization</strong>
-            Authorized to place orders, make purchases, sales and trades on your account. Does <em>not</em> permit the authorized agent to redeem or withdraw assets from your account.
-          </span>
-        </label>
-
-        <label style="display:flex;align-items:flex-start;gap:12px;padding:14px;border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:border-color 0.2s;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;color:var(--white)" id="auth-label-full">
-          <input type="radio" name="auth-level" id="auth-full" value="Full Trading Authorization" style="width:18px!important;height:18px!important;accent-color:#b8922a;flex-shrink:0;margin-top:2px" onchange="highlightAuth()" />
-          <span>
-            <strong style="font-size:13px;font-weight:700;color:var(--gold);display:block;margin-bottom:4px">Full Trading Authorization</strong>
-            Authorized to follow instructions in every respect including placing trades, making deliveries of securities and payment of moneys. Full power to act on your behalf.
-          </span>
-        </label>
-
+    <div class="section-hdr">Security Details</div>
+    <div class="grid-3">
+      <div class="field">
+        <label for="symbol">Ticker Symbol <span class="req">*</span></label>
+        <input type="text" id="symbol" placeholder="e.g. AAPL" style="text-transform:uppercase" />
+        <div class="error-msg" id="err-symbol">Required</div>
       </div>
-      <div class="error-msg" id="err-auth-level" style="margin-top:6px">Please select an authorization level</div>
+      <div class="field">
+        <label for="isin">Security ISIN <span class="req">*</span></label>
+        <input type="text" id="isin" placeholder="e.g. US0378331005" style="text-transform:uppercase" />
+        <div class="error-msg" id="err-isin">Required</div>
+      </div>
+      <div class="field">
+        <label for="exchange">Exchange <span class="req">*</span></label>
+        <select id="exchange">
+          <option value="" disabled selected>Select</option>
+          <option>NASDAQ</option><option>NYSE</option><option>OTCID</option>
+          <option>OTCQB</option><option>OTCQX</option><option>TSX</option>
+          <option>TSXV</option><option>Other</option>
+        </select>
+        <div class="error-msg" id="err-exchange">Required</div>
+      </div>
     </div>
-
     <div class="grid-2">
       <div class="field">
-        <label for="auth-agent-name">Authorized Agent</label>
-        <input type="text" id="auth-agent-name" value="Harrington Equity Group" readonly style="opacity:0.7;cursor:not-allowed;border-color:#3a4a68;" />
+        <label for="purpose">Purpose of Deposit <span class="req">*</span></label>
+        <select id="purpose">
+          <option value="" disabled selected>Select</option>
+          <option>Long Term Hold</option><option>Legend Removal</option>
+          <option>Resale</option><option>Loan Collateral</option>
+          <option>Safekeeping</option><option>Other</option>
+        </select>
+        <div class="error-msg" id="err-purpose">Required</div>
       </div>
-
-    </div>
-
-    <div class="field" style="margin-top:8px">
-      <div onclick="toggleAck()" style="display:grid;grid-template-columns:24px 1fr;gap:12px;padding:14px;background:#151c2e;border:1px solid var(--border);border-radius:4px;align-items:start;cursor:pointer">
-        <div id="ack-box" style="width:20px;height:20px;min-width:20px;border:2px solid #b8922a;border-radius:3px;background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">
-          <span id="ack-tick" style="display:none;color:#b8922a;font-size:14px;font-weight:bold;">✓</span>
-        </div>
-        <span style="font-size:12.5px;font-weight:400;color:var(--muted);line-height:1.7;">
-          I acknowledge and agree that the above authorization grants Harrington Equity Group the selected level of access to my account.
-        </span>
+      <div class="field">
+        <label for="priority">Priority <span class="req">*</span></label>
+        <select id="priority">
+          <option value="" disabled selected>Select</option>
+          <option>High</option><option>Medium</option><option>Low</option>
+        </select>
+        <div class="error-msg" id="err-priority">Required</div>
       </div>
-      <input type="hidden" id="auth-acknowledge" value="false" />
-      <div class="error-msg" id="err-auth-acknowledge" style="margin-top:4px">You must acknowledge the trading authorization terms</div>
     </div>
   </div>
 
-  <!-- Stock Deposit (always shown) -->
   <div class="form-card">
     <div class="section-hdr">Stock Deposit &amp; Transfer Details</div>
     <div class="grid-2">
@@ -745,326 +801,423 @@
     </div>
   </div>
 
-  <!-- Subscriber Questions -->
   <div class="form-card">
     <div class="section-hdr">Subscriber Questions</div>
-    <p class="info-note">Please answer each question. Where Yes is selected, provide details in the text field.</p>
-
-    <div class="sub-question">
-      <div class="sub-q-text">
-        Are you or any immediate family member an officer, director, control person or affiliate of the company?
-        <div class="sub-q-detail"><input type="text" id="sq1-detail" placeholder="If yes, provide details or N/A" /></div>
-      </div>
-      <div class="yes-no">
-        <button class="yn-btn" onclick="ynToggle(this,'sq1','yes')">YES</button>
-        <button class="yn-btn" onclick="ynToggle(this,'sq1','no')">NO</button>
-      </div>
-      <input type="hidden" id="sq1" value="" />
-    </div>
-
-    <div class="sub-question">
-      <div class="sub-q-text">
-        Does the account holder or any immediate family member have a relationship with the Issuer or its control persons?
-        <div class="sub-q-detail"><input type="text" id="sq2-detail" placeholder="If yes, describe relationship or N/A" /></div>
-      </div>
-      <div class="yes-no">
-        <button class="yn-btn" onclick="ynToggle(this,'sq2','yes')">YES</button>
-        <button class="yn-btn" onclick="ynToggle(this,'sq2','no')">NO</button>
-      </div>
-      <input type="hidden" id="sq2" value="" />
-    </div>
-
-    <div class="sub-question">
-      <div class="sub-q-text">
-        Have you been engaged to promote or encourage anyone to purchase the Issuer's common stock or securities?
-        <div class="sub-q-detail"><input type="text" id="sq3-detail" placeholder="If yes, provide details or N/A" /></div>
-      </div>
-      <div class="yes-no">
-        <button class="yn-btn" onclick="ynToggle(this,'sq3','yes')">YES</button>
-        <button class="yn-btn" onclick="ynToggle(this,'sq3','no')">NO</button>
-      </div>
-      <input type="hidden" id="sq3" value="" />
-    </div>
-
-    <div class="sub-question">
-      <div class="sub-q-text">
-        Do you own or control 5% or more of the outstanding shares of this issuer?
-        <div class="sub-q-detail"><input type="text" id="sq4-detail" placeholder="If yes, state percentage or N/A" /></div>
-      </div>
-      <div class="yes-no">
-        <button class="yn-btn" onclick="ynToggle(this,'sq4','yes')">YES</button>
-        <button class="yn-btn" onclick="ynToggle(this,'sq4','no')">NO</button>
-      </div>
-      <input type="hidden" id="sq4" value="" />
-    </div>
-
-    <div class="sub-question">
-      <div class="sub-q-text">
-        Do you intend to sell additional shares through any other means outside of Magellan Securities Limited?
-        <div class="sub-q-detail"><input type="text" id="sq5-detail" placeholder="If yes, provide details or N/A" /></div>
-      </div>
-      <div class="yes-no">
-        <button class="yn-btn" onclick="ynToggle(this,'sq5','yes')">YES</button>
-        <button class="yn-btn" onclick="ynToggle(this,'sq5','no')">NO</button>
-      </div>
-      <input type="hidden" id="sq5" value="" />
-    </div>
-
-    <div class="sub-question" style="border-bottom:none;padding-bottom:0">
-      <div class="sub-q-text">
-        Has the security experienced any reverse splits in the prior 12 months?
-        <div class="sub-q-detail"><input type="text" id="sq6-detail" placeholder="If yes, state date and split ratio or N/A" /></div>
-      </div>
-      <div class="yes-no">
-        <button class="yn-btn" onclick="ynToggle(this,'sq6','yes')">YES</button>
-        <button class="yn-btn" onclick="ynToggle(this,'sq6','no')">NO</button>
-      </div>
-      <input type="hidden" id="sq6" value="" />
-    </div>
+    <p class="info-note">Please answer each question. Where Yes is selected, provide details.</p>
+    <div id="sq-container"></div>
   </div>
 
-  <!-- Notes -->
   <div class="form-card">
     <div class="section-hdr">Notes</div>
-    <div class="grid-1">
-      <div class="field">
-        <label for="notes">Additional Notes</label>
-        <textarea id="notes" placeholder="Any relevant context, instructions, or special considerations…"></textarea>
-      </div>
+    <div class="field">
+      <label for="notes">Additional Notes</label>
+      <textarea id="notes" placeholder="Any relevant context, instructions, or special considerations…"></textarea>
     </div>
   </div>
 
-  <div class="submit-section">
-    <p class="required-note"><span>*</span> Denotes a required field</p>
-    <button class="btn-submit" id="submit-btn" onclick="submitForm()">Submit Opportunity</button>
-    <div class="success-banner" id="success-banner">✓ &nbsp; Submission received. Harrington Equity Group will be in touch.</div>
-    <div class="error-banner-submit" id="error-banner-submit">✕ &nbsp; Submission failed. Please try again or contact your administrator.</div>
+  <div class="nav-btns">
+    <button class="btn-back" onclick="prevStep(4)">← Back</button>
+    <button class="btn-next" onclick="nextStep(4)">Next →</button>
   </div>
+</div>
+
+<!-- ═══ STEP 5: Trading Authorization + Submit ═══ -->
+<div class="step-panel" id="step-5">
+  <div class="form-card">
+    <div class="section-hdr">Trading Authorization</div>
+    <p class="info-note">Select the level of trading authorization you wish to grant to Harrington Equity Group as your authorized agent.</p>
+
+    <div class="field" style="margin-bottom:16px">
+      <label>Authorization Level <span class="req">*</span></label>
+      <div style="margin-top:8px">
+        <div class="auth-option" id="auth-opt-view" onclick="selectAuth('View Only Access','view')">
+          <input type="radio" name="auth-level" id="auth-view" value="View Only Access" style="margin-top:3px" />
+          <div class="auth-option-text">
+            <strong>View Only Access</strong>
+            <span>Authorized to receive statements and account information only. Not authorized to place trades or withdrawals.</span>
+          </div>
+        </div>
+        <div class="auth-option" id="auth-opt-limited" onclick="selectAuth('Limited Trading Authorization','limited')">
+          <input type="radio" name="auth-level" id="auth-limited" value="Limited Trading Authorization" style="margin-top:3px" />
+          <div class="auth-option-text">
+            <strong>Limited Trading Authorization</strong>
+            <span>Authorized to place orders and trades. Does not permit redemption or withdrawal of assets.</span>
+          </div>
+        </div>
+        <div class="auth-option" id="auth-opt-full" onclick="selectAuth('Full Trading Authorization','full')">
+          <input type="radio" name="auth-level" id="auth-full" value="Full Trading Authorization" style="margin-top:3px" />
+          <div class="auth-option-text">
+            <strong>Full Trading Authorization</strong>
+            <span>Full power to place trades, make deliveries of securities and payment of moneys on your behalf.</span>
+          </div>
+        </div>
+      </div>
+      <div class="error-msg" id="err-auth-level" style="margin-top:6px">Please select an authorization level</div>
+    </div>
+
+    <div class="field" style="margin-bottom:0">
+      <label>Authorized Agent</label>
+      <input type="text" value="Harrington Equity Group" readonly style="opacity:0.6;cursor:not-allowed;border-color:#3a4a68;" />
+    </div>
+  </div>
+
+  <div class="form-card">
+    <div class="section-hdr">Acknowledgements</div>
+
+    <div style="margin-bottom:14px">
+      <div class="custom-check-wrap" onclick="toggleCheck('auth-ack')">
+        <div class="custom-check-box" id="auth-ack-box"><span class="tick">✓</span></div>
+        <span class="custom-check-text">I acknowledge and agree that the above authorization grants Harrington Equity Group the selected level of access to my account.</span>
+      </div>
+      <input type="hidden" id="auth-ack" value="false" />
+      <div class="error-msg" id="err-auth-ack" style="margin-top:4px">Required</div>
+    </div>
+
+    <div>
+      <div class="custom-check-wrap" onclick="toggleCheck('disclaimer-ack')">
+        <div class="custom-check-box" id="disclaimer-ack-box"><span class="tick">✓</span></div>
+        <span class="custom-check-text">I have read and acknowledge the disclaimer — Harrington Equity Group Limited is not a registered broker-dealer or investment adviser. All information is for informational purposes only. This portal is not directed at U.S. persons.</span>
+      </div>
+      <input type="hidden" id="disclaimer-ack" value="false" />
+      <div class="error-msg" id="err-disclaimer-ack" style="margin-top:4px">Required</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:0 0 1rem">
+    <div class="success-banner" id="success-banner">✓ &nbsp; Submission received. Harrington Equity Group will be in touch.</div>
+    <div class="error-banner-submit" id="error-banner-submit">✕ &nbsp; Submission failed. Please try again.</div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-back" onclick="prevStep(5)">← Back</button>
+    <button class="btn-submit-final" id="submit-btn" onclick="submitForm()">Submit Opportunity</button>
+  </div>
+</div>
 
 </main>
 
-<footer>
-  <div class="disclaimer-box">
-    <div class="disclaimer-check-row" onclick="toggleDisc()" style="cursor:pointer">
-      <div id="disc-box" style="width:20px;height:20px;min-width:20px;border:2px solid #b8922a;border-radius:3px;background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">
-        <span id="disc-tick" style="display:none;color:#b8922a;font-size:14px;font-weight:bold;">✓</span>
-      </div>
-      <input type="hidden" id="disclaimer-check" value="false" />
-      <span class="disclaimer-check-label">I have read and acknowledge the disclaimer below</span>
-    </div>
-    <div class="disclaimer-text">
-      <p><strong style="color:#c8bfad">Harrington Equity Group Limited</strong> ("Harrington Equity Group") is not a registered broker-dealer, investment dealer, or investment adviser and does not provide securities brokerage services. Harrington Equity Group is not registered with any securities regulatory authority, and nothing contained on this website constitutes an offer, solicitation, recommendation, or invitation to buy or sell any securities.</p>
-      <p>All information provided is for informational purposes only and should not be construed as legal, tax, financial, or investment advice. Any securities-related transactions, where applicable, must be conducted through appropriately licensed and regulated parties.</p>
-      <p style="margin-bottom:0">This website is not directed at persons in the United States and does not constitute an offer or solicitation to U.S. persons or residents.</p>
-    </div>
-  </div>
-  <div class="page-footer">
-    <p>Harrington Equity Group</p>
-    <small>Opportunity Registry &nbsp;·&nbsp; Confidential Submission Portal</small>
-  </div>
-</footer>
+<div class="page-footer">
+  <p>Harrington Equity Group</p>
+  <small>Opportunity Registry &nbsp;·&nbsp; Confidential Submission Portal</small>
+</div>
 
 <script>
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxWHl6kN4p2iFFJNZJbdoDZbqsw7Re551RHACXx5uY0c5T6Atbzves1Zxg0V0G66AZu/exec";
-  document.getElementById('date').valueAsDate = new Date();
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwKNGqNYZzVrrhx7eK3gGbSmquN5wUeWEak9siv8ty7J6qrBM1EI54hoxl7lxvNkjOY/exec";
 
-  function setAccountType(type) {
-    document.getElementById('account-type').value = type;
-    document.getElementById('btn-personal').classList.toggle('active', type === 'personal');
-    document.getElementById('btn-corporate').classList.toggle('active', type === 'corporate');
-    document.getElementById('btn-personal').classList.remove('acct-required');
-    document.getElementById('btn-corporate').classList.remove('acct-required');
-    document.getElementById('personal-sections').classList.toggle('show', type === 'personal');
-    document.getElementById('corporate-sections').classList.toggle('show', type === 'corporate');
-    document.getElementById('err-account-type').style.display = 'none';
+let currentStep = 1;
+let accountType = '';
+const totalSteps = 5;
+
+// Build subscriber questions
+const sqData = [
+  { q: "Are you or any immediate family member an officer, director, control person or affiliate of the company?", id: "sq1" },
+  { q: "Does the account holder or any immediate family member have a relationship with the Issuer or its control persons?", id: "sq2" },
+  { q: "Have you been engaged to promote or encourage anyone to purchase the Issuer's common stock or securities?", id: "sq3" },
+  { q: "Do you own or control 5% or more of the outstanding shares of this issuer?", id: "sq4" },
+  { q: "Do you intend to sell additional shares through any other means outside of Magellan Securities Limited?", id: "sq5" },
+  { q: "Has the security experienced any reverse splits in the prior 12 months?", id: "sq6" }
+];
+
+window.onload = function() {
+  const sqContainer = document.getElementById('sq-container');
+  sqData.forEach((item, i) => {
+    sqContainer.innerHTML += `
+      <div style="padding:12px 0;border-bottom:1px solid var(--border);${i===sqData.length-1?'border-bottom:none':''}">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:8px">
+          <div style="flex:1;font-size:13px;line-height:1.6;color:var(--white)">${item.q}</div>
+          <div style="display:flex;gap:8px;flex-shrink:0">
+            <button onclick="ynToggle(this,'${item.id}','yes')" style="padding:6px 14px;border:1px solid var(--border);border-radius:3px;background:var(--surface-2);color:var(--muted);font-family:Mulish,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;cursor:pointer;transition:all 0.15s" class="yn-btn">YES</button>
+            <button onclick="ynToggle(this,'${item.id}','no')" style="padding:6px 14px;border:1px solid var(--border);border-radius:3px;background:var(--surface-2);color:var(--muted);font-family:Mulish,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;cursor:pointer;transition:all 0.15s" class="yn-btn">NO</button>
+          </div>
+        </div>
+        <input type="text" id="${item.id}-detail" placeholder="If yes, provide details or N/A" style="font-family:Mulish,sans-serif;font-size:13px;padding:8px 12px;border:1px solid var(--border);border-radius:4px;background:var(--surface-2);color:#f0ece4;width:100%" />
+        <input type="hidden" id="${item.id}" value="" />
+      </div>`;
+  });
+};
+
+function ynToggle(btn, id, val) {
+  const row = btn.closest('div').parentElement;
+  row.querySelectorAll('.yn-btn').forEach(b => {
+    b.style.background = 'var(--surface-2)';
+    b.style.color = 'var(--muted)';
+    b.style.borderColor = 'var(--border)';
+  });
+  if (val === 'yes') { btn.style.background='#1a3520'; btn.style.color='#6aca8a'; btn.style.borderColor='#4a8a5a'; }
+  else { btn.style.background='#2a1515'; btn.style.color='#e07060'; btn.style.borderColor='#8a3030'; }
+  document.getElementById(id).value = val;
+}
+
+function formatCommas(el) {
+  let v = el.value.replace(/[^0-9]/g, '');
+  if (v) el.value = parseInt(v).toLocaleString('en-US');
+}
+
+function setAccountType(type) {
+  accountType = type;
+  document.getElementById('account-type').value = type;
+  document.getElementById('btn-personal').classList.toggle('active', type === 'personal');
+  document.getElementById('btn-corporate').classList.toggle('active', type === 'corporate');
+  document.getElementById('btn-personal').classList.remove('acct-required');
+  document.getElementById('btn-corporate').classList.remove('acct-required');
+  document.getElementById('err-account-type').style.display = 'none';
+}
+
+function selectAuth(val, key) {
+  document.querySelectorAll('.auth-option').forEach(o => o.classList.remove('selected'));
+  document.getElementById('auth-opt-' + key).classList.add('selected');
+  document.getElementById('auth-' + key).checked = true;
+  document.getElementById('err-auth-level').style.display = 'none';
+}
+
+function toggleCheck(id) {
+  const val = document.getElementById(id).value === 'true';
+  document.getElementById(id).value = !val;
+  const box = document.getElementById(id + '-box');
+  box.classList.toggle('checked', !val);
+  document.getElementById('err-' + id).style.display = 'none';
+}
+
+function updateProgress(step) {
+  const pct = ((step - 1) / (totalSteps - 1)) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.querySelectorAll('.step-dot').forEach((dot, i) => {
+    dot.classList.remove('active', 'completed');
+    if (i + 1 === step) dot.classList.add('active');
+    else if (i + 1 < step) dot.classList.add('completed');
+  });
+}
+
+function showStep(step) {
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('step-' + step).classList.add('active');
+  // Show correct personal/corporate panels
+  ['personal-step2','corporate-step2','personal-step3','corporate-step3'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  if (step === 2 && accountType) {
+    const el = document.getElementById(accountType + '-step2');
+    if (el) el.style.display = 'block';
   }
-
-  function ynToggle(btn, id, val) {
-    const row = btn.closest('.sub-question');
-    row.querySelectorAll('.yn-btn').forEach(b => { b.classList.remove('yes-active','no-active'); });
-    btn.classList.add(val === 'yes' ? 'yes-active' : 'no-active');
-    document.getElementById(id).value = val;
+  if (step === 3 && accountType) {
+    const el = document.getElementById(accountType + '-step3');
+    if (el) el.style.display = 'block';
   }
+  currentStep = step;
+  updateProgress(step);
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
 
-  function validateField(id) {
-    const el  = document.getElementById(id);
-    const err = document.getElementById('err-' + id);
+function goToStep(step) {
+  if (step < currentStep) showStep(step);
+}
+
+function validateStep(step) {
+  let valid = true;
+  const req = (id) => {
+    const el = document.getElementById(id);
     if (!el) return true;
-    const val = el.value.trim();
-    let valid = val !== '' && val !== 'Select';
-    if (id === 'p-phone' || id === 'c-phone') {
-      valid = val.startsWith('+') && val.replace(/[^0-9]/g,'').length >= 7;
-      if (err) err.textContent = 'Must start with + and include country code';
-    }
-    if (err) err.style.display = valid ? 'none' : 'block';
-    if (el) el.classList.toggle('invalid', !valid);
-    return valid;
-  }
+    const v = el.value.trim();
+    const ok = v !== '' && v !== 'Select';
+    const err = document.getElementById('err-' + id);
+    if (err) err.style.display = ok ? 'none' : 'block';
+    if (el.tagName !== 'SELECT') el.classList.toggle('invalid', !ok);
+    else el.classList.toggle('invalid', !ok);
+    return ok;
+  };
 
-  function highlightAuth() {
-    ['view','limited','full'].forEach(v => {
-      const radio = document.getElementById('auth-' + v);
-      const lbl   = document.getElementById('auth-label-' + v);
-      if (lbl) lbl.style.borderColor = radio.checked ? '#b8922a' : '';
-    });
-    document.getElementById('err-auth-level').style.display = 'none';
-  }
-
-  const commonFields = ['partner-name','symbol','isin','exchange','purpose','priority','auth-agent-name','brokerage','transfer','security-restricted','date-acquired','how-acquired'];
-  const personalFields = ['p-title','p-first-name','p-last-name','p-dob','p-nationality','p-place-birth','p-passport','p-phone','p-email','p-home-address','p-country','p-shares','p-position-value','p-currency','p-employment','p-employer','p-income','p-net-worth','p-source-funds','p-source-detail','p-purpose-acct','p-investment-exp','p-risk-tolerance','p-investment-obj','p-background','p-tax-country','p-tin','p-us-status'];
-  const corporateFields = ['c-sh-name','c-country','c-nationality','c-passport','c-place-birth','c-phone','c-email','c-shares','c-position-value','c-corp-name','c-country-incorp','c-reg-agent','c-reg-number','c-currency','c-stmt-freq','c-acct-type-detail','c-mailing-address','c-source-funds','c-source-detail','c-net-worth','c-annual-income','c-background','c-tax-country','c-tin','c-us-tax-status'];
-
-  function toggleAck() {
-    const val = document.getElementById('auth-acknowledge').value === 'true';
-    document.getElementById('auth-acknowledge').value = !val;
-    document.getElementById('ack-tick').style.display = !val ? 'block' : 'none';
-    document.getElementById('ack-box').style.background = !val ? '#b8922a22' : 'transparent';
-    document.getElementById('err-auth-acknowledge').style.display = 'none';
-  }
-
-  function toggleDisc() {
-    const val = document.getElementById('disclaimer-check').value === 'true';
-    document.getElementById('disclaimer-check').value = !val;
-    document.getElementById('disc-tick').style.display = !val ? 'block' : 'none';
-    document.getElementById('disc-box').style.background = !val ? '#b8922a22' : 'transparent';
-  }
-
-  async function submitForm() {
-    const acctType = document.getElementById('account-type').value;
-    if (!acctType) {
+  if (step === 1) {
+    if (!req('partner-name')) valid = false;
+    if (!accountType) {
       document.getElementById('err-account-type').style.display = 'block';
       document.getElementById('btn-personal').classList.add('acct-required');
       document.getElementById('btn-corporate').classList.add('acct-required');
-      document.getElementById('btn-personal').scrollIntoView({behavior:'smooth',block:'center'});
-      return;
-    }
-    // Validate trading auth level
-    const authLevel = document.querySelector('input[name="auth-level"]:checked');
-    if (!authLevel) {
-      document.getElementById('err-auth-level').style.display = 'block';
-      document.getElementById('err-auth-level').scrollIntoView({behavior:'smooth',block:'center'});
-      return;
-    }
-    // Validate auth acknowledge
-    const authAck = document.getElementById('auth-acknowledge');
-    if (!authAck || authAck.value !== 'true') {
-      document.getElementById('err-auth-acknowledge').style.display = 'block';
-      document.getElementById('ack-box').scrollIntoView({behavior:'smooth',block:'center'});
-      return;
-    }
-    document.getElementById('err-auth-acknowledge').style.display = 'none';
-
-    const cb = document.getElementById('disclaimer-check');
-    if (!cb || cb.value !== 'true') {
-      document.getElementById('disc-box').style.borderColor = '#b03a2e';
-      document.getElementById('disc-box').scrollIntoView({behavior:'smooth',block:'center'});
-      return;
-    }
-    document.getElementById('disc-box').style.borderColor = '#b8922a';
-
-    const typeFields = acctType === 'personal' ? personalFields : corporateFields;
-    const allFields = [...commonFields, ...typeFields];
-    const results = allFields.map(id => validateField(id));
-    if (!results.every(Boolean)) {
-      const first = document.querySelector('.invalid');
-      if (first) first.scrollIntoView({behavior:'smooth',block:'center'});
-      return;
-    }
-
-    const btn = document.getElementById('submit-btn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span> Submitting…';
-    document.getElementById('success-banner').style.display = 'none';
-    document.getElementById('error-banner-submit').style.display = 'none';
-    console.log('Submitting payload to:', APPS_SCRIPT_URL);
-
-    const g = id => document.getElementById(id)?.value?.trim() || '';
-
-    const payload = {
-      timestamp: new Date().toLocaleString(),
-      accountType: acctType,
-      partnerName: g('partner-name'), companyName: g('company-name'),
-      symbol: g('symbol'), isin: g('isin'), exchange: g('exchange'),
-      purposeOfDeposit: g('purpose'),
-      priority: g('priority'),
-      // Personal fields
-      pTitle: g('p-title'), pFirstName: g('p-first-name'), pLastName: g('p-last-name'),
-      pDob: g('p-dob'), pNationality: g('p-nationality'), pPlaceBirth: g('p-place-birth'),
-      pPassport: g('p-passport'), pPhone: g('p-phone'), pEmail: g('p-email'),
-      pHomeAddress: g('p-home-address'), pCountry: g('p-country'),
-      pShares: g('p-shares'), pPositionValue: g('p-position-value'), pCurrency: g('p-currency'),
-      pEmployment: g('p-employment'), pEmployer: g('p-employer'), pIncome: g('p-income'),
-      pNetWorth: g('p-net-worth'), pSourceFunds: g('p-source-funds'), pSourceDetail: g('p-source-detail'),
-      pPurposeAcct: g('p-purpose-acct'), pInvestmentExp: g('p-investment-exp'),
-      pRiskTolerance: g('p-risk-tolerance'), pInvestmentObj: g('p-investment-obj'),
-      pBackground: g('p-background'), pTaxCountry: g('p-tax-country'),
-      pTin: g('p-tin'), pUsStatus: g('p-us-status'),
-      // Corporate fields
-      cShName: g('c-sh-name'), cCountry: g('c-country'), cNationality: g('c-nationality'),
-      cPassport: g('c-passport'), cPlaceBirth: g('c-place-birth'),
-      cPhone: g('c-phone'), cEmail: g('c-email'),
-      cShares: g('c-shares'), cPositionValue: g('c-position-value'),
-      cCorpName: g('c-corp-name'), cCountryIncorp: g('c-country-incorp'),
-      cRegAgent: g('c-reg-agent'), cRegNumber: g('c-reg-number'),
-      cCurrency: g('c-currency'), cStmtFreq: g('c-stmt-freq'),
-      cAcctActivity: g('c-acct-type-detail'), cMailingAddress: g('c-mailing-address'),
-      cSourceFunds: g('c-source-funds'), cSourceDetail: g('c-source-detail'),
-      cNetWorth: g('c-net-worth'), cAnnualIncome: g('c-annual-income'),
-      cBackground: g('c-background'), cTaxCountry: g('c-tax-country'),
-      cTin: g('c-tin'), cUsTaxStatus: g('c-us-tax-status'),
-      // Trading authorization
-      authorizationLevel: authLevel ? authLevel.value : '',
-      authAgentName: g('auth-agent-name'),
-      // Stock deposit
-      brokerage: g('brokerage'), transferMethod: g('transfer'),
-      securityRestricted: g('security-restricted'),
-      dateAcquired: g('date-acquired'), howAcquired: g('how-acquired'),
-      // Subscriber questions
-      sq1: g('sq1') + (g('sq1-detail') ? ' — ' + g('sq1-detail') : ''),
-      sq2: g('sq2') + (g('sq2-detail') ? ' — ' + g('sq2-detail') : ''),
-      sq3: g('sq3') + (g('sq3-detail') ? ' — ' + g('sq3-detail') : ''),
-      sq4: g('sq4') + (g('sq4-detail') ? ' — ' + g('sq4-detail') : ''),
-      sq5: g('sq5') + (g('sq5-detail') ? ' — ' + g('sq5-detail') : ''),
-      sq6: g('sq6') + (g('sq6-detail') ? ' — ' + g('sq6-detail') : ''),
-      notes: g('notes')
-    };
-
-    try {
-      await fetch(APPS_SCRIPT_URL, {
-        method: 'POST', mode: 'no-cors',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(payload)
-      });
-      document.getElementById('success-banner').style.display = 'flex';
-      btn.style.display = 'none';
-      setTimeout(() => {
-        document.querySelectorAll('input:not([type=date]):not([type=checkbox]),textarea').forEach(el => el.value='');
-        document.querySelectorAll('select').forEach(el => el.selectedIndex=0);
-        document.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('yes-active','no-active'));
-        document.getElementById('date').valueAsDate = new Date();
-        document.getElementById('account-type').value = '';
-        document.getElementById('btn-personal').classList.remove('active');
-        document.getElementById('btn-corporate').classList.remove('active');
-        document.getElementById('personal-sections').classList.remove('show');
-        document.getElementById('corporate-sections').classList.remove('show');
-        document.getElementById('disclaimer-check').value = 'false';
-        document.getElementById('disc-tick').style.display = 'none';
-        document.getElementById('disc-box').style.background = 'transparent';
-        document.getElementById('auth-acknowledge').value = 'false';
-        document.getElementById('ack-tick').style.display = 'none';
-        document.getElementById('ack-box').style.background = 'transparent';
-        document.getElementById('success-banner').style.display = 'none';
-        btn.style.display = 'inline-block';
-        btn.disabled = false;
-        btn.innerHTML = 'Submit Opportunity';
-      }, 6000);
-    } catch(err) {
-      console.error('Submit error:', err);
-      document.getElementById('error-banner-submit').style.display = 'flex';
-      btn.disabled = false;
-      btn.innerHTML = 'Submit Opportunity';
+      valid = false;
     }
   }
+
+  if (step === 2 && accountType === 'personal') {
+    ['p-title','p-first-name','p-last-name','p-dob','p-nationality','p-place-birth','p-passport','p-phone','p-email','p-country','p-home-address','p-shares','p-position-value','p-currency','p-us-status'].forEach(id => { if (!req(id)) valid = false; });
+    // Phone validation
+    const ph = document.getElementById('p-phone');
+    if (ph) {
+      const ok = ph.value.trim().startsWith('+') && ph.value.replace(/[^0-9]/g,'').length >= 7;
+      if (!ok) { ph.classList.add('invalid'); document.getElementById('err-p-phone').style.display='block'; valid=false; }
+    }
+  }
+  if (step === 2 && accountType === 'corporate') {
+    ['c-first-name','c-last-name','c-role','c-passport','c-nationality','c-country','c-phone','c-email','c-shares','c-position-value','c-corp-name','c-country-incorp','c-reg-agent','c-reg-number','c-currency','c-mailing-address','c-us-tax-status'].forEach(id => { if (!req(id)) valid = false; });
+    const ph = document.getElementById('c-phone');
+    if (ph) {
+      const ok = ph.value.trim().startsWith('+') && ph.value.replace(/[^0-9]/g,'').length >= 7;
+      if (!ok) { ph.classList.add('invalid'); document.getElementById('err-c-phone').style.display='block'; valid=false; }
+    }
+    // Check at least one director
+    const dirs = document.querySelectorAll('.dir-name');
+    const hasDir = Array.from(dirs).some(d => d.value.trim() !== '');
+    if (!hasDir) { document.getElementById('err-directors').style.display='block'; valid=false; }
+    else { document.getElementById('err-directors').style.display='none'; }
+  }
+
+  if (step === 3 && accountType === 'personal') {
+    ['p-employment','p-employer','p-income','p-net-worth','p-source-funds','p-source-detail','p-investment-obj','p-investment-exp','p-risk-tolerance','p-purpose-acct','p-background','p-tax-country','p-tin'].forEach(id => { if (!req(id)) valid = false; });
+  }
+  if (step === 3 && accountType === 'corporate') {
+    ['c-source-funds','c-source-detail','c-net-worth','c-annual-income','c-purpose-acct','c-acct-activity','c-background','c-tax-country','c-tin'].forEach(id => { if (!req(id)) valid = false; });
+  }
+
+  if (step === 4) {
+    ['symbol','isin','exchange','purpose','priority','brokerage','transfer','security-restricted','date-acquired','how-acquired'].forEach(id => { if (!req(id)) valid = false; });
+  }
+
+  if (!valid) {
+    const first = document.querySelector('.invalid');
+    if (first) first.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  return valid;
+}
+
+function nextStep(step) {
+  if (!validateStep(step)) return;
+  showStep(step + 1);
+}
+
+function prevStep(step) {
+  showStep(step - 1);
+}
+
+let dirCount = 1;
+function addDirector() {
+  const container = document.getElementById('directors-container');
+  const div = document.createElement('div');
+  div.className = 'director-row';
+  div.id = 'dir-' + dirCount;
+  div.innerHTML = `
+    <button class="btn-remove" onclick="removeDirector('dir-${dirCount}')">✕</button>
+    <div class="director-row-title">Person ${dirCount + 1}</div>
+    <div class="grid-3">
+      <div class="field"><label>Full Name <span class="req">*</span></label><input type="text" class="dir-name" placeholder="Full legal name" /></div>
+      <div class="field"><label>Role <span class="req">*</span></label><select class="dir-role" style="-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'10\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%238a9ab8\' stroke-width=\'2\'%3E%3Cpath d=\'m6 9 6 6 6-6\'/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:32px"><option value="" disabled selected>Select</option><option>Director</option><option>UBO</option><option>Authorized Signatory</option><option>Shareholder</option></select></div>
+      <div class="field"><label>Nationality <span class="req">*</span></label><input type="text" class="dir-nationality" placeholder="e.g. Canadian" /></div>
+    </div>
+    <div class="grid-3">
+      <div class="field"><label>Passport # <span class="req">*</span></label><input type="text" class="dir-passport" placeholder="Passport number" style="text-transform:uppercase" /></div>
+      <div class="field"><label>Country of Residence <span class="req">*</span></label><input type="text" class="dir-country" placeholder="Country" /></div>
+      <div class="field"><label>% Ownership (UBO only)</label><input type="text" class="dir-ownership" placeholder="e.g. 25% or N/A" /></div>
+    </div>`;
+  container.appendChild(div);
+  dirCount++;
+}
+
+function removeDirector(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+async function submitForm() {
+  // Validate auth level
+  const authLevel = document.querySelector('input[name="auth-level"]:checked');
+  if (!authLevel) {
+    document.getElementById('err-auth-level').style.display = 'block';
+    return;
+  }
+  // Validate acknowledgements
+  if (document.getElementById('auth-ack').value !== 'true') {
+    document.getElementById('err-auth-ack').style.display = 'block';
+    document.getElementById('auth-ack-box').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  if (document.getElementById('disclaimer-ack').value !== 'true') {
+    document.getElementById('err-disclaimer-ack').style.display = 'block';
+    document.getElementById('disclaimer-ack-box').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Submitting…';
+  document.getElementById('success-banner').style.display = 'none';
+  document.getElementById('error-banner-submit').style.display = 'none';
+
+  const g = id => document.getElementById(id)?.value?.trim() || '';
+
+  // Collect directors
+  const dirRows = document.querySelectorAll('.director-row');
+  const directors = Array.from(dirRows).map(row => ({
+    name: row.querySelector('.dir-name')?.value || '',
+    role: row.querySelector('.dir-role')?.value || '',
+    nationality: row.querySelector('.dir-nationality')?.value || '',
+    passport: row.querySelector('.dir-passport')?.value || '',
+    country: row.querySelector('.dir-country')?.value || '',
+    ownership: row.querySelector('.dir-ownership')?.value || ''
+  }));
+
+  const payload = {
+    timestamp: new Date().toLocaleString(),
+    accountType: accountType,
+    partnerName: g('partner-name'), companyName: g('company-name'),
+    // Personal
+    pTitle: g('p-title'), pFirstName: g('p-first-name'), pLastName: g('p-last-name'),
+    pDob: g('p-dob'), pNationality: g('p-nationality'), pPlaceBirth: g('p-place-birth'),
+    pPassport: g('p-passport'), pPhone: g('p-phone'), pEmail: g('p-email'),
+    pCountry: g('p-country'), pHomeAddress: g('p-home-address'),
+    pShares: g('p-shares'), pPositionValue: g('p-position-value'), pCurrency: g('p-currency'),
+    pUsStatus: g('p-us-status'),
+    pEmployment: g('p-employment'), pEmployer: g('p-employer'), pIncome: g('p-income'),
+    pNetWorth: g('p-net-worth'), pSourceFunds: g('p-source-funds'), pSourceDetail: g('p-source-detail'),
+    pInvestmentObj: g('p-investment-obj'), pInvestmentExp: g('p-investment-exp'),
+    pRiskTolerance: g('p-risk-tolerance'), pPurposeAcct: g('p-purpose-acct'),
+    pBackground: g('p-background'), pTaxCountry: g('p-tax-country'), pTin: g('p-tin'),
+    // Corporate
+    cFirstName: g('c-first-name'), cLastName: g('c-last-name'), cRole: g('c-role'),
+    cPassport: g('c-passport'), cNationality: g('c-nationality'), cCountry: g('c-country'),
+    cPhone: g('c-phone'), cEmail: g('c-email'),
+    cShares: g('c-shares'), cPositionValue: g('c-position-value'),
+    cCorpName: g('c-corp-name'), cCountryIncorp: g('c-country-incorp'),
+    cRegAgent: g('c-reg-agent'), cRegNumber: g('c-reg-number'),
+    cCurrency: g('c-currency'), cMailingAddress: g('c-mailing-address'),
+    cUsTaxStatus: g('c-us-tax-status'),
+    cSourceFunds: g('c-source-funds'), cSourceDetail: g('c-source-detail'),
+    cNetWorth: g('c-net-worth'), cAnnualIncome: g('c-annual-income'),
+    cPurposeAcct: g('c-purpose-acct'), cAcctActivity: g('c-acct-activity'),
+    cBackground: g('c-background'), cTaxCountry: g('c-tax-country'), cTin: g('c-tin'),
+    directors: JSON.stringify(directors),
+    // Security
+    symbol: g('symbol'), isin: g('isin'), exchange: g('exchange'),
+    purposeOfDeposit: g('purpose'), priority: g('priority'),
+    brokerage: g('brokerage'), transferMethod: g('transfer'),
+    securityRestricted: g('security-restricted'),
+    dateAcquired: g('date-acquired'), howAcquired: g('how-acquired'),
+    // Subscriber questions
+    sq1: g('sq1') + (g('sq1-detail') ? ' — ' + g('sq1-detail') : ''),
+    sq2: g('sq2') + (g('sq2-detail') ? ' — ' + g('sq2-detail') : ''),
+    sq3: g('sq3') + (g('sq3-detail') ? ' — ' + g('sq3-detail') : ''),
+    sq4: g('sq4') + (g('sq4-detail') ? ' — ' + g('sq4-detail') : ''),
+    sq5: g('sq5') + (g('sq5-detail') ? ' — ' + g('sq5-detail') : ''),
+    sq6: g('sq6') + (g('sq6-detail') ? ' — ' + g('sq6-detail') : ''),
+    notes: g('notes'),
+    authorizationLevel: authLevel.value,
+  };
+
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    document.getElementById('success-banner').style.display = 'flex';
+    btn.style.display = 'none';
+    setTimeout(() => {
+      window.scrollTo({top:0, behavior:'smooth'});
+      setTimeout(() => location.reload(), 500);
+    }, 4000);
+  } catch(err) {
+    document.getElementById('error-banner-submit').style.display = 'flex';
+    btn.disabled = false;
+    btn.innerHTML = 'Submit Opportunity';
+  }
+}
 </script>
 </body>
 </html>
