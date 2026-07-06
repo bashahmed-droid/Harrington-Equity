@@ -196,11 +196,7 @@
       </div>
     </div>
     <div class="grid-2">
-      <div class="field">
-        <label for="date">Date Submitted <span class="req">*</span></label>
-        <input type="date" id="date" />
-        <div class="error-msg" id="err-date">Required</div>
-      </div>
+
 
     </div>
   </div>
@@ -686,12 +682,15 @@
     </div>
 
     <div class="field" style="margin-top:8px">
-      <div style="display:grid;grid-template-columns:24px 1fr;gap:12px;padding:14px;background:#151c2e;border:1px solid var(--border);border-radius:4px;align-items:start">
-        <input type="checkbox" id="auth-acknowledge" onclick="this.checked=!this.checked" style="width:20px!important;height:20px!important;min-width:20px;accent-color:#b8922a;cursor:pointer;margin:0;padding:0!important;border:none!important;background:transparent!important;" />
-        <span style="font-size:12.5px;font-weight:400;color:var(--muted);line-height:1.7;cursor:pointer" onclick="document.getElementById('auth-acknowledge').click()">
+      <div onclick="toggleAck()" style="display:grid;grid-template-columns:24px 1fr;gap:12px;padding:14px;background:#151c2e;border:1px solid var(--border);border-radius:4px;align-items:start;cursor:pointer">
+        <div id="ack-box" style="width:20px;height:20px;min-width:20px;border:2px solid #b8922a;border-radius:3px;background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">
+          <span id="ack-tick" style="display:none;color:#b8922a;font-size:14px;font-weight:bold;">✓</span>
+        </div>
+        <span style="font-size:12.5px;font-weight:400;color:var(--muted);line-height:1.7;">
           I acknowledge and agree that the above authorization grants Harrington Equity Group the selected level of access to my account at Magellan Securities Limited. I agree to indemnify and hold Magellan Securities Limited harmless from any and all losses arising from this authorization. This authorization remains in full force and effect until revoked by written notice.
         </span>
       </div>
+      <input type="hidden" id="auth-acknowledge" value="false" />
       <div class="error-msg" id="err-auth-acknowledge" style="margin-top:4px">You must acknowledge the trading authorization terms</div>
     </div>
   </div>
@@ -846,9 +845,12 @@
 
 <footer>
   <div class="disclaimer-box">
-    <div class="disclaimer-check-row">
-      <input type="checkbox" id="disclaimer-check" />
-      <label for="disclaimer-check" class="disclaimer-check-label">I have read and acknowledge the disclaimer below</label>
+    <div class="disclaimer-check-row" onclick="toggleDisc()" style="cursor:pointer">
+      <div id="disc-box" style="width:20px;height:20px;min-width:20px;border:2px solid #b8922a;border-radius:3px;background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">
+        <span id="disc-tick" style="display:none;color:#b8922a;font-size:14px;font-weight:bold;">✓</span>
+      </div>
+      <input type="hidden" id="disclaimer-check" value="false" />
+      <span class="disclaimer-check-label">I have read and acknowledge the disclaimer below</span>
     </div>
     <div class="disclaimer-text">
       <p><strong style="color:#c8bfad">Harrington Equity Group Limited</strong> ("Harrington Equity Group") is not a registered broker-dealer, investment dealer, or investment adviser and does not provide securities brokerage services. Harrington Equity Group is not registered with any securities regulatory authority, and nothing contained on this website constitutes an offer, solicitation, recommendation, or invitation to buy or sell any securities.</p>
@@ -908,9 +910,24 @@
     document.getElementById('err-auth-level').style.display = 'none';
   }
 
-  const commonFields = ['partner-name','symbol','isin','exchange','purpose','priority','date','auth-agent-name','brokerage','transfer','security-restricted','date-acquired','how-acquired'];
+  const commonFields = ['partner-name','symbol','isin','exchange','purpose','priority','auth-agent-name','brokerage','transfer','security-restricted','date-acquired','how-acquired'];
   const personalFields = ['p-title','p-first-name','p-last-name','p-dob','p-nationality','p-place-birth','p-passport','p-phone','p-email','p-home-address','p-country','p-shares','p-position-value','p-currency','p-employment','p-employer','p-income','p-net-worth','p-source-funds','p-source-detail','p-purpose-acct','p-investment-exp','p-risk-tolerance','p-investment-obj','p-background','p-tax-country','p-tin','p-us-status'];
   const corporateFields = ['c-sh-name','c-country','c-nationality','c-passport','c-place-birth','c-phone','c-email','c-shares','c-position-value','c-corp-name','c-country-incorp','c-reg-agent','c-reg-number','c-currency','c-stmt-freq','c-acct-type-detail','c-mailing-address','c-source-funds','c-source-detail','c-net-worth','c-annual-income','c-background','c-tax-country','c-tin','c-us-tax-status'];
+
+  function toggleAck() {
+    const val = document.getElementById('auth-acknowledge').value === 'true';
+    document.getElementById('auth-acknowledge').value = !val;
+    document.getElementById('ack-tick').style.display = !val ? 'block' : 'none';
+    document.getElementById('ack-box').style.background = !val ? '#b8922a22' : 'transparent';
+    document.getElementById('err-auth-acknowledge').style.display = 'none';
+  }
+
+  function toggleDisc() {
+    const val = document.getElementById('disclaimer-check').value === 'true';
+    document.getElementById('disclaimer-check').value = !val;
+    document.getElementById('disc-tick').style.display = !val ? 'block' : 'none';
+    document.getElementById('disc-box').style.background = !val ? '#b8922a22' : 'transparent';
+  }
 
   async function submitForm() {
     const acctType = document.getElementById('account-type').value;
@@ -930,7 +947,7 @@
     }
     // Validate auth acknowledge
     const authAck = document.getElementById('auth-acknowledge');
-    if (!authAck.checked) {
+    if (authAck.value !== 'true') {
       document.getElementById('err-auth-acknowledge').style.display = 'block';
       authAck.scrollIntoView({behavior:'smooth',block:'center'});
       return;
@@ -938,12 +955,12 @@
     document.getElementById('err-auth-acknowledge').style.display = 'none';
 
     const cb = document.getElementById('disclaimer-check');
-    if (!cb.checked) {
-      cb.style.outline = '2px solid #b03a2e';
+    if (cb.value !== 'true') {
+      document.getElementById('disc-box').style.borderColor = '#b03a2e';
       cb.scrollIntoView({behavior:'smooth',block:'center'});
       return;
     }
-    cb.style.outline = '';
+    document.getElementById('disc-box').style.borderColor = '#b8922a';
 
     const typeFields = acctType === 'personal' ? personalFields : corporateFields;
     const allFields = [...commonFields, ...typeFields];
@@ -968,7 +985,7 @@
       partnerName: g('partner-name'), companyName: g('company-name'),
       symbol: g('symbol'), isin: g('isin'), exchange: g('exchange'),
       purposeOfDeposit: g('purpose'),
-      priority: g('priority'), dateSubmitted: g('date'),
+      priority: g('priority'),
       // Personal fields
       pTitle: g('p-title'), pFirstName: g('p-first-name'), pLastName: g('p-last-name'),
       pDob: g('p-dob'), pNationality: g('p-nationality'), pPlaceBirth: g('p-place-birth'),
@@ -1029,7 +1046,12 @@
         document.getElementById('btn-corporate').classList.remove('active');
         document.getElementById('personal-sections').classList.remove('show');
         document.getElementById('corporate-sections').classList.remove('show');
-        document.getElementById('disclaimer-check').checked = false;
+        document.getElementById('disclaimer-check').value = 'false';
+        document.getElementById('disc-tick').style.display = 'none';
+        document.getElementById('disc-box').style.background = 'transparent';
+        document.getElementById('auth-acknowledge').value = 'false';
+        document.getElementById('ack-tick').style.display = 'none';
+        document.getElementById('ack-box').style.background = 'transparent';
         document.getElementById('success-banner').style.display = 'none';
         btn.style.display = 'inline-block';
         btn.disabled = false;
