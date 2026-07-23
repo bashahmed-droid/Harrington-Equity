@@ -253,8 +253,11 @@
       </div>
       <div class="grid-3">
         <div class="field">
-          <label for="p-passport">Passport No. / Driver's License <span class="req">*</span></label>
-        </div>
+          <div class="field">
+  <label for="p-passport">Passport No. / Driver's License <span class="req">*</span></label>
+  <input type="text" id="p-passport" placeholder="Passport or license number" style="text-transform:uppercase" />
+  <div class="error-msg" id="err-p-passport">Required</div>
+</div>
         <div class="field">
           <label for="p-phone">Phone Number <span class="req">*</span></label>
           <input type="tel" id="p-phone" placeholder="+1 (000) 000-0000" oninput="this.value=this.value.replace(/[^0-9+\-\s()]/g,'')" />
@@ -714,8 +717,8 @@
         <div class="error-msg" id="err-symbol">Required</div>
       </div>
       <div class="field">
-        <label for="isin">Security ISIN <span class="req">*</span> <span style="font-weight:400;text-transform:none;color:var(--muted);">(or N/A if unknown)</span></label>
-        <input type="text" id="isin" placeholder="e.g. US0378331005" style="text-transform:uppercase" />
+       <label for="isin">Security ISIN <span class="req">*</span></label>
+        <input type="text" id="isin" placeholder="e.g. US0378331005 (or N/A if unknown)" style="text-transform:uppercase" />
         <div class="error-msg" id="err-isin">Required</div>
       </div>
       <div class="field">
