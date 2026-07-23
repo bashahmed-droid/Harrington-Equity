@@ -1043,7 +1043,8 @@ function validateStep(step) {
     const ph = document.getElementById('p-phone');
     if (ph) {
       const ok = ph.value.trim().startsWith('+') && ph.value.replace(/[^0-9]/g,'').length >= 7;
-      if (!ok) { ph.classList.add('invalid'); document.getElementById('err-p-phone').style.display='block'; valid=false; }
+      const phErr = document.getElementById('err-p-phone');
+      if (!ok) { ph.classList.add('invalid'); if (phErr) phErr.style.display='block'; valid=false; }
     }
   }
   if (step === 2 && accountType === 'corporate') {
@@ -1051,14 +1052,15 @@ function validateStep(step) {
     const ph = document.getElementById('c-phone');
     if (ph) {
       const ok = ph.value.trim().startsWith('+') && ph.value.replace(/[^0-9]/g,'').length >= 7;
-      if (!ok) { ph.classList.add('invalid'); document.getElementById('err-c-phone').style.display='block'; valid=false; }
+      const phErr = document.getElementById('err-c-phone');
+      if (!ok) { ph.classList.add('invalid'); if (phErr) phErr.style.display='block'; valid=false; }
     }
     // Check at least one director
     const dirs = document.querySelectorAll('.dir-name');
     const hasDir = Array.from(dirs).some(d => d.value.trim() !== '');
-    if (!hasDir) { document.getElementById('err-directors').style.display='block'; valid=false; }
-    else { document.getElementById('err-directors').style.display='none'; }
-  }
+    const dirErr = document.getElementById('err-directors');
+    if (!hasDir) { if (dirErr) dirErr.style.display='block'; valid=false; }
+    else { if (dirErr) dirErr.style.display='none'; }
 
   if (step === 3 && accountType === 'personal') {
     ['p-employment','p-employer','p-income','p-net-worth','p-source-funds','p-source-detail','p-investment-obj','p-investment-exp','p-risk-tolerance','p-purpose-acct','p-background','p-tax-country','p-tin'].forEach(id => { if (!req(id)) valid = false; });
