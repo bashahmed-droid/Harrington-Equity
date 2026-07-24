@@ -253,10 +253,10 @@
       </div>
       <div class="grid-3">
         <div class="field">
-  <label for="p-passport">Passport No. / Driver's License <span class="req">*</span></label>
-  <input type="text" id="p-passport" placeholder="Passport or license number" style="text-transform:uppercase" />
-  <div class="error-msg" id="err-p-passport">Required</div>
-</div>
+          <label for="p-passport">Passport No. / Driver's License <span class="req">*</span></label>
+          <input type="text" id="p-passport" placeholder="Passport or license number" style="text-transform:uppercase" />
+          <div class="error-msg" id="err-p-passport">Required</div>
+        </div>
         <div class="field">
           <label for="p-phone">Phone Number <span class="req">*</span></label>
           <input type="tel" id="p-phone" placeholder="+1 (000) 000-0000" oninput="this.value=this.value.replace(/[^0-9+\-\s()]/g,'')" />
@@ -345,7 +345,7 @@
       <div class="grid-3">
         <div class="field">
           <label for="c-passport">Passport No. / Driver's License <span class="req">*</span></label>
-          <input type="text" id="c-passport" placeholder="Passport number" style="text-transform:uppercase" />
+          <input type="text" id="c-passport" placeholder="Passport or license number" style="text-transform:uppercase" />
           <div class="error-msg" id="err-c-passport">Required</div>
         </div>
         <div class="field">
@@ -472,7 +472,7 @@
           <div class="grid-3">
             <div class="field">
               <label>Passport No. / Driver's License <span class="req">*</span></label>
-              <input type="text" class="dir-passport" placeholder="Passport number" style="text-transform:uppercase" />
+              <input type="text" class="dir-passport" placeholder="Passport or license number" style="text-transform:uppercase" />
             </div>
             <div class="field">
               <label>Country of Residence <span class="req">*</span></label>
@@ -486,6 +486,7 @@
         </div>
       </div>
       <button class="btn-add" onclick="addDirector()">+ Add Another Person</button>
+      <div class="error-msg" id="err-directors" style="margin-top:8px">At least one person is required</div>
     </div>
   </div>
 
@@ -715,7 +716,7 @@
         <div class="error-msg" id="err-symbol">Required</div>
       </div>
       <div class="field">
-       <label for="isin">Security ISIN <span class="req">*</span></label>
+        <label for="isin">Security ISIN <span class="req">*</span></label>
         <input type="text" id="isin" placeholder="e.g. US0378331005 (or N/A if unknown)" style="text-transform:uppercase" />
         <div class="error-msg" id="err-isin">Required</div>
       </div>
@@ -1061,6 +1062,7 @@ function validateStep(step) {
     const dirErr = document.getElementById('err-directors');
     if (!hasDir) { if (dirErr) dirErr.style.display='block'; valid=false; }
     else { if (dirErr) dirErr.style.display='none'; }
+  }
 
   if (step === 3 && accountType === 'personal') {
     ['p-employment','p-employer','p-income','p-net-worth','p-source-funds','p-source-detail','p-investment-obj','p-investment-exp','p-risk-tolerance','p-purpose-acct','p-background','p-tax-country','p-tin'].forEach(id => { if (!req(id)) valid = false; });
@@ -1104,7 +1106,7 @@ function addDirector() {
       <div class="field"><label>Nationality <span class="req">*</span></label><input type="text" class="dir-nationality" placeholder="e.g. Canadian" /></div>
     </div>
     <div class="grid-3">
-      <div class="field"><label>Passport # <span class="req">*</span></label><input type="text" class="dir-passport" placeholder="Passport number" style="text-transform:uppercase" /></div>
+      <div class="field"><label>Passport No. / Driver's License <span class="req">*</span></label><input type="text" class="dir-passport" placeholder="Passport or license number" style="text-transform:uppercase" /></div>
       <div class="field"><label>Country of Residence <span class="req">*</span></label><input type="text" class="dir-country" placeholder="Country" /></div>
       <div class="field"><label>% Ownership (UBO only)</label><input type="text" class="dir-ownership" placeholder="e.g. 25% or N/A" /></div>
     </div>`;
